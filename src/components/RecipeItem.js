@@ -20,7 +20,7 @@ class RequiredIgds extends React.Component {
 			<Text style={styles.ingredients}>
 				所需食材: &nbsp;
 				{ingredient_list.map(function(ingredient, i){
-					return (i === (igdLen-1) ? <Text>{ingredient}</Text> : <Text>{ingredient + '、'}</Text>)
+					return (i === (igdLen-1) ? <Text key={i}>{ingredient.text}</Text> : <Text key={i}>{ingredient.text + '、'}</Text>)
 
 				})}
 			</Text>
