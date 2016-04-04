@@ -5,7 +5,7 @@ import configureStore from './configure-store'
 import App from './containers/App'
 
 const store = configureStore()
-// TODO: using provider from react-redux
+
 class Application extends React.Component {
 	render () {
 		return (

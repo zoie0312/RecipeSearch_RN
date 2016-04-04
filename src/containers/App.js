@@ -1,7 +1,13 @@
 import React from 'react-native'
 
+let {
+    Navigator
+    
+} = React
+
 import RecipeItem from '../components/RecipeItem'
 import GiftedList from '../components/GiftedList'
+import MainContainer from './MainContainer'
 
 var MOCKED_RECIPE_DATA = [
   {
@@ -12,12 +18,34 @@ var MOCKED_RECIPE_DATA = [
 ];
 
 class App extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+    
+    renderScene(route, navigator) {
+        let Component = route.component
+        
+        return (
+            <Component navigator={navigator} route={route} />
+        )
+    }
+    
 	render () {
-		return (
-			//<RecipeItem
-            //    {...MOCKED_RECIPE_DATA[0]}/>
-            <GiftedList/>
-		)
+		// return (
+		// 	//<RecipeItem
+        //     //    {...MOCKED_RECIPE_DATA[0]}/>
+        //     <GiftedList/>
+		// )
+        
+        return (
+            <Navigator 
+                renderScene={this.renderScene}
+                initialRoute={{
+                    component: MainContainer,
+                    name: 'Main'
+                }}
+            />
+        )
 	}
 }
 
