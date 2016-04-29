@@ -12,6 +12,7 @@ let deviceWidth = Dimensions.get('window').width
 
 import RecipeList from './RecipeList'
 import {searchRecipes} from '../actions/recipe'
+//import UserIngredientsView from './UserIngredientsView'
 
 class Main extends React.Component {
     constructor (props) {
@@ -32,7 +33,12 @@ class Main extends React.Component {
     
     onIconClicked () {
         console.log('menu clicked');
-        this.setState({searchIngredients: 'onion'});
+        this.context.openDrawer();
+        //this.setState({searchIngredients: 'onion'});
+        // this.props.navigator.push({
+        //     name: 'userIngredients',
+        //     component: UserIngredientsView
+        // });
     }
     
     onSubmitEditing () {
@@ -69,6 +75,10 @@ class Main extends React.Component {
         
     }
 }
+
+Main.contextTypes = {
+    openDrawer: React.PropTypes.func
+};
 
 let styles = StyleSheet.create({
     container: {
