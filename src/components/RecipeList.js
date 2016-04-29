@@ -1,7 +1,5 @@
 'use strict';
 
-import RecipeItem from './RecipeItem'
-
 var React = require('react-native');
 var {
   StyleSheet,
@@ -13,6 +11,7 @@ var {
 
 //var GiftedListView = require('react-native-gifted-listview');
 import GiftedListView from './GiftedListView'
+import RecipeItem from './RecipeItem'
 var GiftedSpinner = require('react-native-gifted-spinner');
 
 var MOCKED_RECIPE_DATA = [
@@ -36,7 +35,11 @@ var MOCKED_RECIPE_DATA = [
   }
 ];
 
-var RecipeList = React.createClass({
+class RecipeList extends React.Component{
+  
+  constructor(props) {
+      super(props)
+  }
   
   /**
    * Will be called when refreshing
@@ -47,8 +50,8 @@ var RecipeList = React.createClass({
    */
   _onFetch(page = 1, callback, options) {
     var xhr = new XMLHttpRequest();
-    //var url = 'http://192.168.0.100:8020/recipematch/search_result/?page=' +
-    var url = 'http://192.168.43.27:8020/recipematch/search_result/?page=' +
+    var url = 'http://192.168.0.100:8020/recipematch/search_result/?page=' +
+    //var url = 'http://192.168.43.27:8020/recipematch/search_result/?page=' +
         (page) + '&start=' + 
         ((page-1)*15) + '&limit=' +
         (page*15);
@@ -89,7 +92,7 @@ var RecipeList = React.createClass({
     //     callback(rows);
     //   }
     // }, 1000); // simulating network fetching
-  },
+  }
   
   
   /**
@@ -98,7 +101,7 @@ var RecipeList = React.createClass({
    */
   _onPress(rowData) {
     console.log(rowData+' pressed');
-  },
+  }
   
   /**
    * Render a row
@@ -106,7 +109,10 @@ var RecipeList = React.createClass({
    */
   _renderRowView(rowData) {
        return (
-           <RecipeItem {...rowData}/>
+           <RecipeItem
+               navigator={this.props.navigator}
+               {...rowData}
+           />
        )
     // return (
     //   <TouchableHighlight 
@@ -119,7 +125,7 @@ var RecipeList = React.createClass({
       
     //   </TouchableHighlight>
     // );
-  },
+  }
 
   /**
    * Render a row
@@ -133,7 +139,7 @@ var RecipeList = React.createClass({
         </Text>
       </View>
     );
-  },
+  }
   
   /**
    * Render the refreshable view when waiting for refresh
@@ -162,7 +168,7 @@ var RecipeList = React.createClass({
         </TouchableHighlight>
       );
     }
-  },
+  }
 
   /**
    * Render the refreshable view when the pull to refresh has been activated
@@ -176,7 +182,7 @@ var RecipeList = React.createClass({
         </Text>
       </View>
     );
-  },
+  }
 
   /**
    * Render the refreshable view when fetching
@@ -187,7 +193,7 @@ var RecipeList = React.createClass({
         <GiftedSpinner />
       </View>
     );
-  },
+  }
   
   /**
    * Render the pagination view when waiting for touch
@@ -205,7 +211,7 @@ var RecipeList = React.createClass({
         </Text>
       </TouchableHighlight>
     );
-  },
+  }
   
   /**
    * Render the pagination view when fetching
@@ -216,7 +222,7 @@ var RecipeList = React.createClass({
         <GiftedSpinner />
       </View>
     );
-  },
+  }
   
   /**
    * Render the pagination view when end of list is reached
@@ -229,7 +235,7 @@ var RecipeList = React.createClass({
         </Text>
       </View>
     );
-  },
+  }
   
   /**
    * Render a view when there is no row to display at the first fetch
@@ -252,7 +258,7 @@ var RecipeList = React.createClass({
         </TouchableHighlight>
       </View>
     );
-  },
+  }
   
   /**
    * Render a separator between rows
@@ -261,7 +267,7 @@ var RecipeList = React.createClass({
     return (
       <View style={customStyles.separator} />
     );
-  },
+  }
   
   componentWillUpdate(nextProps, nextStates) {
       console.log('RecipeList component will update');
@@ -271,7 +277,7 @@ var RecipeList = React.createClass({
       if (nextProps.RecipeList.isFetchingRecipes) {
           this.refs.giftedlistview.reInitialize();
       }
-  },
+  }
   
   render() {
     return (
@@ -279,7 +285,7 @@ var RecipeList = React.createClass({
 
         <GiftedListView
           ref="giftedlistview"
-          rowView={this._renderRowView}
+          rowView={this._renderRowView.bind(this)}
           
           onFetch={this._onFetch}
           initialListSize={12} // the maximum number of rows displayable without scrolling (height of the listview / height of row)
@@ -313,7 +319,7 @@ var RecipeList = React.createClass({
       </View>
     );
   }
-});
+}
 
 
 var customStyles = {

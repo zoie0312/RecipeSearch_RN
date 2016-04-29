@@ -5,8 +5,10 @@ let {
 	Text,
 	Image,
 	View,
+    TouchableNativeFeedback
 } = React
 
+import Recipe from './Recipe'
 
 class RequiredIgds extends React.Component {
 	constructor (props) {
@@ -32,6 +34,16 @@ class RequiredIgds extends React.Component {
 class RecipeItem extends React.Component {
     constructor (props) {
         super(props)
+        
+        this.onPressRecipeImage = this.onPressRecipeImage.bind(this);
+    }
+    
+    onPressRecipeImage () {
+        console.log('recipe image pressed');
+        this.props.navigator.push({
+            name: 'recipeDetail',
+            component: Recipe
+        })
     }
     
 	render () {
@@ -41,6 +53,8 @@ class RecipeItem extends React.Component {
 				<Text style={styles.title}>
 					{title}
 				</Text>
+                <TouchableNativeFeedback
+                    onPress={this.onPressRecipeImage}>
 				<View style={styles.imageWrapper}>
 					<Image
 						//resizeMode='contain'
@@ -48,6 +62,7 @@ class RecipeItem extends React.Component {
 						style={styles.recipeImage}
 					/>
 				</View>
+                </TouchableNativeFeedback>
 				<RequiredIgds
                     {...this.props}/>
 			</View>

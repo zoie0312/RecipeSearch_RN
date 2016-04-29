@@ -1,8 +1,8 @@
 import React from 'react-native'
 
 let {
-    Navigator
-    
+    Navigator,
+    StyleSheet
 } = React
 
 import RecipeItem from '../components/RecipeItem'
@@ -30,6 +30,14 @@ class App extends React.Component {
         )
     }
     
+    configureScene(route) {
+         
+        if (route.name === 'recipeDetail') {
+            return Navigator.SceneConfigs.PushFromRight;
+        }
+        return Navigator.SceneConfigs.PushFromRight;
+    }
+    
 	render () {
 		// return (
 		// 	//<RecipeItem
@@ -38,7 +46,10 @@ class App extends React.Component {
 		// )
         
         return (
-            <Navigator 
+            <Navigator
+                ref="navigator"
+                style={styles.container}
+                configureScene={this.configureScene}  
                 renderScene={this.renderScene}
                 initialRoute={{
                     component: MainContainer,
@@ -48,5 +59,12 @@ class App extends React.Component {
         )
 	}
 }
+
+var styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'black'
+    }
+});
 
 export default App
