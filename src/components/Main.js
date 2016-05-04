@@ -64,7 +64,7 @@ class Main extends React.Component {
                     placeholderTextColor={'grey'}
                     underlineColorAndroid={'#3a3f41'}
                     onSubmitEditing={this.onSubmitEditing}
-                    autoFocus={true}
+                    autoFocus={false}
                     autoCorrect={false}
                     value={this.state.searchIngredients}
                 />
