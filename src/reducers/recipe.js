@@ -1,6 +1,6 @@
 import * as types from '../constants/ActionTypes'
 
-export default function RecipeList(state={}, action) {
+export default function recipe(state={}, action) {
     //console.log('RecipeList reducer was called with state', state, 'and action', action)
     switch(action.type) {
         case types.DISPLAY_SEARCH:
