@@ -14,19 +14,21 @@ import {connect} from 'react-redux'
 import Main from '../components/Main'
 import UserIngredientsView from '../components/UserIngredientsView'
 import ShoppingList from '../components/ShoppingList'
+import MenuItem from '../components/MenuItem'
 import switchTab from '../actions/navigation'
 
 class MainContainer extends React.Component {
-    // props: {
-    //     //tab: 'MainContainer',
-    //     navigator: Navigator
-    // };
+    //  props: {
+    //      tab: 'MainContainer',
+    //      navigator: Navigator
+    //  };
        
     constructor(props) {
         super(props);
         
         this.renderNavigationView = this.renderNavigationView.bind(this);
         this.openDrawer = this.openDrawer.bind(this);
+        //this.onTabSelect = this.onTabSelect.bind(this);
     }
     
     getChildContext() {
@@ -53,14 +55,18 @@ class MainContainer extends React.Component {
     renderNavigationView() {
         return (
             <View style={styles.drawer}>
-                <TouchableNativeFeedback
-                    onPress={this.onTabSelect.bind(this, 'user-ingredients')}>
-                    <View style={{width: 150, height: 100, backgroundColor: 'red'}}>
-                        <Text style={styles.drawerItem}>My Ingredients</Text>
-                    </View>
-                </TouchableNativeFeedback>
-                <Text style={styles.drawerItem}>My Shopping List</Text>
-                <Text style={styles.drawerItem}>Settings</Text>
+                <MenuItem
+                    title="My Ingredients"
+                    onPress={this.onTabSelect.bind(this, 'user-ingredients')}
+                />
+                <MenuItem
+                    title="My Shopping List"
+                    onPress={this.onTabSelect.bind(this, 'user-shoppinglist')}
+                />
+                <MenuItem
+                    title="Settings"
+                    onPress={this.onTabSelect.bind(this, 'settings')}
+                />    
             </View>
         )
     }
@@ -81,6 +87,9 @@ class MainContainer extends React.Component {
                 return (
                     <ShoppingList {...this.props} />
                 );
+                
+            case 'settings':
+                return;
         }
         throw new Error(`Unknown tab ${this.props.tab}`);
     }
