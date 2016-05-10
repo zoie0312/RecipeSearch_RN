@@ -13,18 +13,20 @@ import {connect} from 'react-redux'
 
 import Main from '../components/Main'
 import UserIngredientsView from '../components/UserIngredientsView'
+import ShoppingList from '../components/ShoppingList'
+import switchTab from '../actions/navigation'
 
 class MainContainer extends React.Component {
-    props: {
-        navigator: Navigator
-    };
+    // props: {
+    //     //tab: 'MainContainer',
+    //     navigator: Navigator
+    // };
        
     constructor(props) {
         super(props);
         
         this.renderNavigationView = this.renderNavigationView.bind(this);
         this.openDrawer = this.openDrawer.bind(this);
-        //this.onPressItem = this.onPressItem.bind(this);
     }
     
     getChildContext() {
@@ -37,8 +39,11 @@ class MainContainer extends React.Component {
         this.refs.drawer.openDrawer();
     }
     
-    onPressItem(item: Item) {
-        // this.refs.drawer.closeDrawer();
+    onTabSelect(tab) {
+        if (this.props.tab !== tab) {
+            this.props.onTabSelect(tab);
+        }
+        this.refs.drawer.closeDrawer();
         // this.props.navigator.push({
         //     name: 'userIngredients',
         //     component: UserIngredientsView
@@ -49,7 +54,7 @@ class MainContainer extends React.Component {
         return (
             <View style={styles.drawer}>
                 <TouchableNativeFeedback
-                    onPress={this.onPressItem.bind(this, 'user-ingredients')}>
+                    onPress={this.onTabSelect.bind(this, 'user-ingredients')}>
                     <View style={{width: 150, height: 100, backgroundColor: 'red'}}>
                         <Text style={styles.drawerItem}>My Ingredients</Text>
                     </View>
@@ -60,6 +65,26 @@ class MainContainer extends React.Component {
         )
     }
     
+    renderContent() {
+        switch (this.props.tab) {
+            case 'main':
+                return (
+                    <Main {...this.props}/>
+                );
+                
+            case 'user-ingredients': 
+                return (
+                    <UserIngredientsView {...this.props} />
+                );
+                
+            case 'user-shoppinglist':
+                return (
+                    <ShoppingList {...this.props} />
+                );
+        }
+        throw new Error(`Unknown tab ${this.props.tab}`);
+    }
+    
     render() {
         return (
             <DrawerLayoutAndroid
@@ -68,7 +93,7 @@ class MainContainer extends React.Component {
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
                 renderNavigationView={this.renderNavigationView}>
                 <View style={styles.content}>
-                    <Main {...this.props} />
+                    {this.renderContent()}
                 </View>
             </DrawerLayoutAndroid>
         )
@@ -79,12 +104,19 @@ MainContainer.childContextTypes =  {
         openDrawer: React.PropTypes.func
 };
 
-function mapStateToProps(state) {
-    const { items, RecipeList } = state
+function select(store) { //mapStateToProps from Redux
+    //const { items, RecipeList } = state
     return {
-        items,
-        RecipeList
+        items: store.items,
+        RecipeList: store.recipe,
+        tab: store.navigation.tab
         //reduxState: state
+    }
+}
+
+function actions(dispatch) { //mapDispatchToProps from Redux
+    return {
+        onTabSelect: (tab) => dispatch(switchTab(tab))        
     }
 }
 
@@ -104,4 +136,4 @@ var styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps)(MainContainer)
+export default connect(select, actions)(MainContainer)

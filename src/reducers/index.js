@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux'
 
-import RecipeList from './RecipeList'
+import recipe from './recipe'
+import navigation from './navigation'
 
 var itemsReducer = function (state = {}, action) {
     //console.log('itemsReducer was called with state', state, 'and action', action)
@@ -14,7 +15,8 @@ var itemsReducer = function (state = {}, action) {
 
 const rootReducer = combineReducers({
     items: itemsReducer,
-    RecipeList
+    recipe: recipe,
+    navigation: navigation
 })
 
 export default rootReducer
