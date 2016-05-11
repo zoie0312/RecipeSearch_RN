@@ -29,14 +29,17 @@ class MenuItem extends React.Component {
 
 var styles = StyleSheet.create({
     container: {
-        width: 150,
+        //width: 150,
         height: 100,
-        backgroundColor: 'yellow'
+        backgroundColor: 'yellow',
+        borderWidth: 2,
+        justifyContent: 'center'
     },
     title: {
         margin: 10, 
         fontSize: 15, 
-        textAlign: 'center'
+        textAlign: 'center',
+        textAlignVertical: 'center'
     }
 });
 
