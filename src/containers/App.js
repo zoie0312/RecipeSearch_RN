@@ -2,12 +2,16 @@ import React from 'react-native'
 
 let {
     Navigator,
-    StyleSheet
+    StyleSheet,
+    BackAndroid
 } = React
+
+import {connect} from 'react-redux'
 
 import RecipeItem from '../components/RecipeItem'
 import GiftedList from '../components/GiftedList'
 import MainContainer from './MainContainer'
+import switchTab from '../actions/navigation'
 
 var MOCKED_RECIPE_DATA = [
   {
@@ -19,7 +23,26 @@ var MOCKED_RECIPE_DATA = [
 
 class App extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
+        
+        this.handleBackButton = this.handleBackButton.bind(this);
+    }
+    
+    componentDidMount() {
+        BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+    
+    componentWillUnmount() {
+        BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+    
+    handleBackButton() {
+        if (this.props.tab !== 'main') {
+            this.props.dispatch(switchTab('main'));
+            return true;
+        }
+        
+        return false;
     }
     
     renderScene(route, navigator) {
@@ -67,4 +90,10 @@ var styles = StyleSheet.create({
     }
 });
 
-export default App
+function select(store) {
+    return {
+        tab: store.navigation.tab
+    }
+}
+
+module.exports = connect(select)(App)
