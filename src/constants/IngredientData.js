@@ -1,206 +1,206 @@
 var MOCKED_INGREDIENT_DATA = [
-    // {
-    //     text: '肉類/四隻腳',
-    //     items: [
-    //         {
-    //             "text": "豬絞肉",
-	// 		    "leaf": true,
-	// 		    "id": 7,
-	// 		    "owned": false
-    //         },
-    //         {
-	// 		 	"text": "豬肉絲",
-	// 		 	"leaf": true,
-	// 		 	"id": 5,
-	// 		 	"owned": false
-	// 		},
-	// 		{
-	// 		 	"text": "牛絞肉",
-	// 		 	"leaf": true,
-	// 		 	"id": 21,
-	// 		 	"owned": false
-	// 		},
-    //         {
-	// 		 	"text": "豬腳",
-	// 		 	"leaf": true,
-	// 		 	"id": 473,
-	// 		 	"owned": false
-	// 		},
-    //         {
-    //             "text": "牛肉絲",
-    //             "leaf": true,
-    //             "id": 484,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "豬肉塊",
-    //             "leaf": true,
-    //             "id": 431,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "豬肉片",
-    //             "leaf": true,
-    //             "id": 445,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "豬肉排",
-    //             "leaf": true,
-    //             "id": 442,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "豬排骨",
-    //             "leaf": true,
-    //             "id": 470,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "牛肋條",
-    //             "leaf": true,
-    //             "id": 20,
-    //             "owned": false
-    //         }             
-    //     ]
-    // },
-    // {
-    //     text: "生鮮蔬果類/瓜果類",
-    //     items: [
-    //         {
-    //             "text": "甜椒",
-    //             "leaf": true,
-    //             "id": 136,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "青椒",
-    //             "leaf": true,
-    //             "id": 133,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "苦瓜",
-    //             "leaf": true,
-    //             "id": 129,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "小黃瓜",
-    //             "leaf": true,
-    //             "id": 125,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "南瓜",
-    //             "leaf": true,
-    //             "id": 127,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "玉米",
-    //             "leaf": true,
-    //             "id": 141,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "玉米筍",
-    //             "leaf": true,
-    //             "id": 140,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "碗豆",
-    //             "leaf": true,
-    //             "id": 147,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "四季豆",
-    //             "leaf": true,
-    //             "id": 146,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "甜豆",
-    //             "leaf": true,
-    //             "id": 145,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "茄子",
-    //             "leaf": true,
-    //             "id": 130,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "絲瓜",
-    //             "leaf": true,
-    //             "id": 132,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "青豆仁",
-    //             "leaf": true,
-    //             "id": 143,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "櫛瓜",
-    //             "leaf": true,
-    //             "id": 732,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "大黃瓜",
-    //             "leaf": true,
-    //             "id": 733,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "瓠瓜",
-    //             "leaf": true,
-    //             "id": 742,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "冬瓜",
-    //             "leaf": true,
-    //             "id": 743,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "碗豆莢",
-    //             "leaf": true,
-    //             "id": 751,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "皇帝豆",
-    //             "leaf": true,
-    //             "id": 752,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "毛豆",
-    //             "leaf": true,
-    //             "id": 753,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "蓮子",
-    //             "leaf": true,
-    //             "id": 755,
-    //             "owned": false
-    //         },
-    //         {
-    //             "text": "番茄",
-    //             "leaf": true,
-    //             "id": 121,
-    //             "owned": false
-    //         }
-    //     ]
-    // },
+    {
+        text: '肉類/四隻腳',
+        items: [
+            {
+                "text": "豬絞肉",
+			    "leaf": true,
+			    "id": 7,
+			    "owned": false
+            },
+            {
+			 	"text": "豬肉絲",
+			 	"leaf": true,
+			 	"id": 5,
+			 	"owned": false
+			},
+			{
+			 	"text": "牛絞肉",
+			 	"leaf": true,
+			 	"id": 21,
+			 	"owned": false
+			},
+            {
+			 	"text": "豬腳",
+			 	"leaf": true,
+			 	"id": 473,
+			 	"owned": false
+			},
+            {
+                "text": "牛肉絲",
+                "leaf": true,
+                "id": 484,
+                "owned": false
+            },
+            {
+                "text": "豬肉塊",
+                "leaf": true,
+                "id": 431,
+                "owned": false
+            },
+            {
+                "text": "豬肉片",
+                "leaf": true,
+                "id": 445,
+                "owned": false
+            },
+            {
+                "text": "豬肉排",
+                "leaf": true,
+                "id": 442,
+                "owned": false
+            },
+            {
+                "text": "豬排骨",
+                "leaf": true,
+                "id": 470,
+                "owned": false
+            },
+            {
+                "text": "牛肋條",
+                "leaf": true,
+                "id": 20,
+                "owned": false
+            }             
+        ]
+    },
+    {
+        text: "生鮮蔬果類/瓜果類",
+        items: [
+            {
+                "text": "甜椒",
+                "leaf": true,
+                "id": 136,
+                "owned": false
+            },
+            {
+                "text": "青椒",
+                "leaf": true,
+                "id": 133,
+                "owned": false
+            },
+            {
+                "text": "苦瓜",
+                "leaf": true,
+                "id": 129,
+                "owned": false
+            },
+            {
+                "text": "小黃瓜",
+                "leaf": true,
+                "id": 125,
+                "owned": false
+            },
+            {
+                "text": "南瓜",
+                "leaf": true,
+                "id": 127,
+                "owned": false
+            },
+            {
+                "text": "玉米",
+                "leaf": true,
+                "id": 141,
+                "owned": false
+            },
+            {
+                "text": "玉米筍",
+                "leaf": true,
+                "id": 140,
+                "owned": false
+            },
+            {
+                "text": "碗豆",
+                "leaf": true,
+                "id": 147,
+                "owned": false
+            },
+            {
+                "text": "四季豆",
+                "leaf": true,
+                "id": 146,
+                "owned": false
+            },
+            {
+                "text": "甜豆",
+                "leaf": true,
+                "id": 145,
+                "owned": false
+            },
+            {
+                "text": "茄子",
+                "leaf": true,
+                "id": 130,
+                "owned": false
+            },
+            {
+                "text": "絲瓜",
+                "leaf": true,
+                "id": 132,
+                "owned": false
+            },
+            {
+                "text": "青豆仁",
+                "leaf": true,
+                "id": 143,
+                "owned": false
+            },
+            {
+                "text": "櫛瓜",
+                "leaf": true,
+                "id": 732,
+                "owned": false
+            },
+            {
+                "text": "大黃瓜",
+                "leaf": true,
+                "id": 733,
+                "owned": false
+            },
+            {
+                "text": "瓠瓜",
+                "leaf": true,
+                "id": 742,
+                "owned": false
+            },
+            {
+                "text": "冬瓜",
+                "leaf": true,
+                "id": 743,
+                "owned": false
+            },
+            {
+                "text": "碗豆莢",
+                "leaf": true,
+                "id": 751,
+                "owned": false
+            },
+            {
+                "text": "皇帝豆",
+                "leaf": true,
+                "id": 752,
+                "owned": false
+            },
+            {
+                "text": "毛豆",
+                "leaf": true,
+                "id": 753,
+                "owned": false
+            },
+            {
+                "text": "蓮子",
+                "leaf": true,
+                "id": 755,
+                "owned": false
+            },
+            {
+                "text": "番茄",
+                "leaf": true,
+                "id": 121,
+                "owned": false
+            }
+        ]
+    },
     {
         text: "蕈菇類",
 		items: [
