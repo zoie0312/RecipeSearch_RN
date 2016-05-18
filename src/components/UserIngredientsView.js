@@ -9,20 +9,24 @@ let {
     ListView,
 } = React
 
+import {connect} from 'react-redux'
+
 import IngredientCategory from './IngredientCategory'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
 
 var UserIngredientsView = React.createClass({
     
-    _toggleExpanded: function() {
-        this.setState({ collapsed: !this.state.collapsed });
-    },
-  
     getInitialState: function() {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         return {
             collapsed: true,
             dataSource: ds.cloneWithRows(this._genRows()),
+        }
+    },
+    
+    getDefaultProps: function() {
+        return {
+            updateIngredients: {}
         }
     },
   
@@ -35,26 +39,10 @@ var UserIngredientsView = React.createClass({
             <IngredientCategory
                 name={rowData.text}
                 items={rowData.items}/>
+                
         )
     },
 
-    _renderHeader: function(section, i, isActive) {
-        return (
-        <View style={[styles.header, isActive ? styles.active : styles.inactive]} >
-            <Text style={styles.headerText}>{section.title}</Text>
-        </View>
-        );
-    },
-
-    _renderContent: function(section, i, isActive) {
-        return (
-        <View style={[styles.content1, isActive ? styles.active : styles.inactive]} >
-            <Text >{section.content}</Text>
-        </View>
-        );
-    },
-
-    
     render: function() {
         return (
             <View style={styles.container}>
@@ -121,4 +109,10 @@ var styles = StyleSheet.create({
     }
 });
 
-export default UserIngredientsView
+function select(store) { //mapStateToProps from Redux
+    return {
+        updateIngredients: store.ingredient.updateIngredients
+    }
+}
+
+export default connect(select)(UserIngredientsView)

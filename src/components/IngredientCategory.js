@@ -31,7 +31,8 @@ class IngredientCategory extends React.Component{
     
     _generateContent() {
         var content,
-            groupedItems = [];
+            groupedItems = [],
+            me = this;
         var length = this.props.items.length;
         //var start = performance.now();
         content = this.props.items.map(function(item, idx, array) {
@@ -39,22 +40,40 @@ class IngredientCategory extends React.Component{
                 if (idx === (length-1)) {
                     return (
                         <View style={styles.groupContainer}>
-                            <IngredientItem name={item.text} id={item.id}/>
+                            <IngredientItem 
+                                name={item.text} 
+                                id={item.id}
+                                />
                         </View>
                     )
                 } else if ((idx+1) === (length-1)) {
                     return (
                         <View style={styles.groupContainer}>
-                            <IngredientItem name={item.text} id={item.id}/>
-                            <IngredientItem name={array[idx+1].text} id={array[idx+1].id}/>
+                            <IngredientItem 
+                                name={item.text} 
+                                id={item.id}
+                                />
+                            <IngredientItem 
+                                name={array[idx+1].text} 
+                                id={array[idx+1].id}
+                                />
                         </View>
                     )
                 } else {
                     return (
                         <View style={styles.groupContainer}>
-                            <IngredientItem name={item.text} id={item.id}/>
-                            <IngredientItem name={array[idx+1].text} id={array[idx+1].id}/>
-                            <IngredientItem name={array[idx+2].text} id={array[idx+2].id}/>
+                            <IngredientItem 
+                                name={item.text} 
+                                id={item.id}
+                                />
+                            <IngredientItem 
+                                name={array[idx+1].text} 
+                                id={array[idx+1].id}
+                                />
+                            <IngredientItem 
+                                name={array[idx+2].text} 
+                                id={array[idx+2].id}
+                                />
                         </View>
                     )
                 }

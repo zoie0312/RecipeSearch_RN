@@ -7,6 +7,9 @@ let {
     Switch
 } = React
 
+import {connect} from 'react-redux'
+import updateIngredientOwnership from '../actions/ingredient'
+
 class IngredientItem extends React.Component{
     props: {
         name: 'test igd',
@@ -15,6 +18,16 @@ class IngredientItem extends React.Component{
     
     constructor (props) {
         super(props)
+        
+        this.state = {checked: false};
+        this.changeValue = this.changeValue.bind(this);
+    }
+    
+    changeValue() {
+        var ingredient = {};
+        ingredient[this.props.id] = !this.state.checked;
+        this.props.dispatch(updateIngredientOwnership(ingredient));
+        this.setState({checked: !this.state.checked});
     }
     
     render () {
@@ -23,9 +36,9 @@ class IngredientItem extends React.Component{
             <View style={styles.container}>
                 <Text>{this.props.name}</Text>
                 <Switch
-                    onValueChange={(value) => console.log(me.props.name)}
+                    onValueChange={this.changeValue}
                     style={{marginBottom: 1}}
-                    value={false}/>
+                    value={this.state.checked}/>
             </View>
         )
     }
@@ -38,4 +51,4 @@ var styles = StyleSheet.create({
     }
 });
 
-export default IngredientItem
+export default connect()(IngredientItem)
