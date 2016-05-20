@@ -22,21 +22,46 @@ var MOCKED_RECIPE_DATA = [
 ];
 
 class App extends React.Component {
+    
     constructor(props) {
         super(props);
         
+        this._handlers = [];
+        
         this.handleBackButton = this.handleBackButton.bind(this);
+        this.addBackButtonListener = this.addBackButtonListener.bind(this);
+        this.removeBackButtonListener = this.removeBackButtonListener.bind(this);
     }
     
     componentDidMount() {
         BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
     }
     
+    getChildContext() {
+        return {
+            addBackButtonListener: this.addBackButtonListener,
+            removeBackButtonListener: this.removeBackButtonListener,
+        };
+    }
+    
     componentWillUnmount() {
         BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
     }
     
+    addBackButtonListener(listener) {
+        this._handlers.push(listener);
+    }
+
+    removeBackButtonListener(listener) {
+        this._handlers = this._handlers.filter((handler) => handler !== listener);
+    }
+    
     handleBackButton() {
+        for (let i = this._handlers.length - 1; i >= 0; i--) {
+            if (this._handlers[i]()) {
+                return true;
+            }
+        }
         if (this.props.tab !== 'main') {
             this.props.dispatch(switchTab('main'));
             return true;
@@ -62,11 +87,6 @@ class App extends React.Component {
     }
     
 	render () {
-		// return (
-		// 	//<RecipeItem
-        //     //    {...MOCKED_RECIPE_DATA[0]}/>
-        //     <GiftedList/>
-		// )
         
         return (
             <Navigator
@@ -82,6 +102,11 @@ class App extends React.Component {
         )
 	}
 }
+
+App.childContextTypes = {
+    addBackButtonListener: React.PropTypes.func,
+    removeBackButtonListener: React.PropTypes.func,
+};
 
 var styles = StyleSheet.create({
     container: {

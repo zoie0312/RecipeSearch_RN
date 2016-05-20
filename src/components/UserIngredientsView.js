@@ -7,12 +7,14 @@ let {
     ToolbarAndroid,
     TouchableHighlight,
     ListView,
+    Alert
 } = React
 
 import {connect} from 'react-redux'
 
 import IngredientCategory from './IngredientCategory'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
+import switchTab from '../actions/navigation'
 
 var UserIngredientsView = React.createClass({
     
@@ -29,6 +31,26 @@ var UserIngredientsView = React.createClass({
             updateIngredients: {}
         }
     },
+    
+    componentDidMount: function() {
+        this.context.addBackButtonListener(this.handleBackButton);
+    },
+    
+    componentWillUnmount: function() {
+        this.context.removeBackButtonListener(this.handleBackButton);
+    },
+    
+    handleBackButton: function() {
+        var me = this;
+        Alert.alert('離開!', '儲存變更?', 
+            [
+                {text: 'Yes', onPress:  me.exitWithSave},
+                {text: 'No', onPress: me.exitWithoutSave}
+                    
+            ]
+        );
+        return true;
+    },
   
     _genRows: function() {
         return MOCKED_INGREDIENT_DATA;
@@ -42,6 +64,33 @@ var UserIngredientsView = React.createClass({
                 
         )
     },
+    
+    exit: function(position) {  
+        var me = this;
+        Alert.alert('離開!', '儲存變更?', 
+            [
+                {text: 'Yes', onPress:  me.exitWithSave},
+                {text: 'No', onPress: me.exitWithoutSave}
+                    
+            ]
+        );
+    },
+    
+    exitWithSave: function() {
+        console.log('exit with save');
+        if (this.props.tab !== 'main') {
+            this.props.dispatch(switchTab('main'));
+            //return true;
+        }
+    },
+    
+    exitWithoutSave: function() {
+        console.log('exit without save');
+        if (this.props.tab !== 'main') {
+            this.props.dispatch(switchTab('main'));
+            //return true;
+        }
+    },
 
     render: function() {
         return (
@@ -49,12 +98,14 @@ var UserIngredientsView = React.createClass({
                 <ToolbarAndroid
                     style={styles.toolbar}
                     title="     我的食材"
+                    actions={[{title: 'back', icon: require('../../assets/ic_arrow_back_black_24dp.png'), show: 'always'}]}
+                    onActionSelected={this.exit}
                 />
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow}
                     initialListSize={1}
-                    pageSize={3} 
+                    pageSize={2} 
                     style={styles.container1}/>
                 
             </View>
@@ -62,6 +113,11 @@ var UserIngredientsView = React.createClass({
         )
     }
 });
+
+UserIngredientsView.contextTypes = {
+    addBackButtonListener: React.PropTypes.func,
+    removeBackButtonListener: React.PropTypes.func
+};
 
 var styles = StyleSheet.create({
     container: {
