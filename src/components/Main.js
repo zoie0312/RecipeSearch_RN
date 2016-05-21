@@ -32,7 +32,6 @@ class Main extends React.Component {
     }
     
     onIconClicked () {
-        console.log('menu clicked');
         this.context.openDrawer();
         //this.setState({searchIngredients: 'onion'});
         // this.props.navigator.push({

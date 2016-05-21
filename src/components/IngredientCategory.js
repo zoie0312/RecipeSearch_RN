@@ -39,39 +39,45 @@ class IngredientCategory extends React.Component{
             if ((idx % 3) === 0) {
                 if (idx === (length-1)) {
                     return (
-                        <View style={styles.groupContainer}>
+                        <View style={styles.groupContainer} key={idx}>
                             <IngredientItem 
-                                name={item.text} 
+                                name={item.text}
+                                key={item.id} 
                                 id={item.id}
                                 />
                         </View>
                     )
                 } else if ((idx+1) === (length-1)) {
                     return (
-                        <View style={styles.groupContainer}>
+                        <View style={styles.groupContainer} key={idx}>
                             <IngredientItem 
-                                name={item.text} 
+                                name={item.text}
+                                key={item.id} 
                                 id={item.id}
                                 />
                             <IngredientItem 
-                                name={array[idx+1].text} 
+                                name={array[idx+1].text}
+                                key={array[idx+1].id} 
                                 id={array[idx+1].id}
                                 />
                         </View>
                     )
                 } else {
                     return (
-                        <View style={styles.groupContainer}>
+                        <View style={styles.groupContainer} key={idx}>
                             <IngredientItem 
-                                name={item.text} 
+                                name={item.text}
+                                key={item.id} 
                                 id={item.id}
                                 />
                             <IngredientItem 
-                                name={array[idx+1].text} 
+                                name={array[idx+1].text}
+                                key={array[idx+1].id} 
                                 id={array[idx+1].id}
                                 />
                             <IngredientItem 
-                                name={array[idx+2].text} 
+                                name={array[idx+2].text}
+                                key={array[idx+2].id} 
                                 id={array[idx+2].id}
                                 />
                         </View>
@@ -92,12 +98,12 @@ class IngredientCategory extends React.Component{
     render () {
         return (
             <View>
-                <TouchableHighlight onPress={this._toggleExpanded}>
-                    <View style={styles.header}>
-                        <Text style={styles.headerText}>{this.props.name}</Text>
+                <TouchableHighlight onPress={this._toggleExpanded} >
+                    <View style={styles.header} >
+                        <Text style={styles.headerText} >{this.props.name}</Text>
                     </View>
                 </TouchableHighlight>
-                <Collapsible collapsed={this.state.collapsed} align="center">
+                <Collapsible collapsed={this.state.collapsed} align="center" >
                     {this._generateContent()}
                 </Collapsible>
             </View>

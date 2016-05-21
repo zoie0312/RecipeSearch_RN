@@ -60,6 +60,7 @@ var UserIngredientsView = React.createClass({
         return (
             <IngredientCategory
                 name={rowData.text}
+                key={rowData.text}
                 items={rowData.items}/>
                 
         )
