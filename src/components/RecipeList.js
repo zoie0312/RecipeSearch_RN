@@ -111,6 +111,7 @@ class RecipeList extends React.Component{
        return (
            <RecipeItem
                navigator={this.props.navigator}
+               key={rowData.title}
                {...rowData}
            />
        )
@@ -263,9 +264,9 @@ class RecipeList extends React.Component{
   /**
    * Render a separator between rows
    */
-  _renderSeparatorView() {
+  _renderSeparatorView(sectionID, rowID) {
     return (
-      <View style={customStyles.separator} />
+      <View style={customStyles.separator} key={`${sectionID}-${rowID}`}/>
     );
   }
   
