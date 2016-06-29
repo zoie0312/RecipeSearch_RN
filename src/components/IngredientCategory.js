@@ -1,11 +1,12 @@
-import React from 'react-native'
+import React from 'react'
+import ReactNative from 'react-native'
 
 let {
     View,
     StyleSheet,
     Text,
     TouchableHighlight
-} = React
+} = ReactNative
 
 import Collapsible from 'react-native-collapsible';
 

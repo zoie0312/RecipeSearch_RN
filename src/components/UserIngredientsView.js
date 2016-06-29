@@ -1,4 +1,5 @@
-import React from 'react-native'
+import React from 'react'
+import ReactNative from 'react-native'
 
 let {
     View,
@@ -8,7 +9,7 @@ let {
     TouchableHighlight,
     ListView,
     Alert
-} = React
+} = ReactNative
 
 import {connect} from 'react-redux'
 

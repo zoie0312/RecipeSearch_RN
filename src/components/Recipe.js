@@ -1,10 +1,10 @@
-import React from 'react-native'
-
+import React from 'react'
+import ReactNative from 'react-native'
 let {
     View,
     StyleSheet,
     Text
-} = React
+} = ReactNative
 
 class Recipe extends React.Component{
     constructor (props) {

@@ -1,11 +1,12 @@
-import React from 'react-native'
+import React from 'react'
+import ReactNative from 'react-native'
 
 let {
     View,
     StyleSheet,
     Text,
     Switch
-} = React
+} = ReactNative
 
 import {connect} from 'react-redux'
 import updateIngredientOwnership from '../actions/ingredient'

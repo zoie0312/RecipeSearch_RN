@@ -6,7 +6,8 @@
 
 import Application from './src/Application'
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var {
   AppRegistry,
   Image,
@@ -14,7 +15,7 @@ var {
   Text,
   View,
   ListView
-} = React;
+} = ReactNative;
 
 var MOCKED_MOVIES_DATA = [
   {title: 'Title', year: '2015', posters: {thumbnail: 'http://i.imgur.com/UePbdph.jpg'}},

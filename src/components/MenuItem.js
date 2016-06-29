@@ -1,11 +1,12 @@
-import React from 'react-native'
+import React from 'react'
+import ReactNative from 'react-native'
 
 let {
     View,
     StyleSheet,
     Text,
     TouchableNativeFeedback
-} = React
+} = ReactNative
 
 class MenuItem extends React.Component {
     propTypes: {

@@ -1,12 +1,13 @@
-import React from 'react-native'
-
+import React from 'react'
+import ReactNative from 'react-native'
 let {
 	StyleSheet,
 	Text,
 	Image,
 	View,
     TouchableNativeFeedback
-} = React
+} = ReactNative
+
 
 import Recipe from './Recipe'
 

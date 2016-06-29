@@ -1,15 +1,16 @@
-import React from 'react-native'
+import React from 'react'
+import ReactNative from 'react-native'
 
 let {
     Navigator,
     StyleSheet,
     BackAndroid
-} = React
+} = ReactNative
 
 import {connect} from 'react-redux'
 
 import RecipeItem from '../components/RecipeItem'
-import GiftedList from '../components/GiftedList'
+//import GiftedList from '../components/GiftedList'
 import MainContainer from './MainContainer'
 import switchTab from '../actions/navigation'
 

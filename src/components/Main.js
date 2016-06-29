@@ -1,4 +1,5 @@
-import React from 'react-native'
+import React from 'react'
+import ReactNative from 'react-native'
 
 let {
     StyleSheet,
@@ -6,7 +7,7 @@ let {
     ToolbarAndroid,
     TextInput,
     Dimensions
-} = React
+} = ReactNative
 
 let deviceWidth = Dimensions.get('window').width
 
