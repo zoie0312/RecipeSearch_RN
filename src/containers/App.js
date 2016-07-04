@@ -10,7 +10,6 @@ let {
 import {connect} from 'react-redux'
 
 import RecipeItem from '../components/RecipeItem'
-//import GiftedList from '../components/GiftedList'
 import MainContainer from './MainContainer'
 import switchTab from '../actions/navigation'
 

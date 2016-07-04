@@ -6,26 +6,29 @@ let {
     View,
     ToolbarAndroid,
     TextInput,
-    Dimensions
+    Dimensions,
+    TouchableOpacity,
+    Text
 } = ReactNative
 
 let deviceWidth = Dimensions.get('window').width
 
 import RecipeList from './RecipeList'
 import {searchRecipes} from '../actions/recipe'
+import {connect} from 'react-redux'
+import Autocomplete from 'react-native-autocomplete-input'
 //import UserIngredientsView from './UserIngredientsView'
+import updateSearchText from '../actions/search'
+
+var MOCKED_INGREDIENTS = ["豬絞肉", "牛絞肉", "豬肉片", "南瓜", "玉米", "碗豆", "冬瓜", "蓮子", "番茄"]
 
 class Main extends React.Component {
     constructor (props) {
         super(props)
         
-        this.state = {
-            searchIngredients: ''
-        }
-        
         this.onIconClicked = this.onIconClicked.bind(this)
         this.onSubmitEditing = this.onSubmitEditing.bind(this)
-            
+        this.renderAutocompleteList = this.renderAutocompleteList.bind(this)
     }
     
     onActionSelected (position) {
@@ -47,8 +50,36 @@ class Main extends React.Component {
         dispatch(searchRecipes(searchIngredients));
     }
     
+    filterIngredients(query) {
+        if (query === ''){
+            return [];
+        }
+        return MOCKED_INGREDIENTS.filter(igd => igd.indexOf(query) >= 0 );
+    }
+    
+    renderAutocompleteList (data) {
+        return (
+            <TouchableOpacity
+                onPress={this.pickIngredient.bind(this, data)}
+            >
+                <Text>{data}</Text>
+            </TouchableOpacity>
+        )
+    }
+    
+    pickIngredient (ingredient) {
+       this.props.dispatch(updateSearchText(ingredient));
+    }
+    
     render () {
-        //console.log('Main render called');
+        const { searchText } = this.props;
+        const filteredIngredients = this.filterIngredients(searchText);
+        var displayedIngredients;
+        if (filteredIngredients.length === 1 && searchText.trim() === filteredIngredients[0].trim()) {
+            displayedIngredients = [];
+        }else {
+            displayedIngredients = filteredIngredients;
+        }
         return (
             <View style={styles.container}>
                 <ToolbarAndroid
@@ -57,7 +88,7 @@ class Main extends React.Component {
                     navIcon={require('../../assets/ic_menu_black_24dp.png')}
                     onIconClicked={this.onIconClicked}
                 />
-                <TextInput
+                {/*<TextInput
                     style={styles.search}
                     onChangeText={(searchIngredients) => this.setState({searchIngredients})}
                     placeholder={'Type Any Ingredient '}
@@ -67,8 +98,21 @@ class Main extends React.Component {
                     autoFocus={false}
                     autoCorrect={false}
                     value={this.state.searchIngredients}
+                />*/}
+                <View style={styles.recipesContainer}>
+                    <RecipeList
+                        {...this.props}
+                    />
+                </View>
+                <Autocomplete
+                    placeholder="Type Any Ingredient "
+                    containerStyle={styles.autocompleteContainer}
+                    data={displayedIngredients}
+                    defaultValue={searchText}
+                    onChangeText={text => this.props.dispatch(updateSearchText(text))}
+                    renderItem={this.renderAutocompleteList} 
                 />
-                <RecipeList {...this.props}/>
+                
             
             </View>    
         )
@@ -88,23 +132,34 @@ let styles = StyleSheet.create({
     toolbar: {
         backgroundColor: 'blue',
         height: 50
-        //textAlign: 'center',
-        //color: '#fff'
     },
     title: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        //marginRight: 28,
         marginLeft: 58
     },
     search: {
         height: 50,
-        //padding: 5,
         width: deviceWidth - 100,
-        //color: '#fff',
         marginLeft: 50
+    },
+    autocompleteContainer: {
+        flex: 1,
+        top: 50,
+        position: 'absolute',
+        width: deviceWidth - 100,
+        marginLeft: 50
+    },
+    recipesContainer: {
+        paddingTop: 60
     }
 })
 
-export default Main 
+function select(store) { //mapStateToProps from Redux
+    return {
+        searchText: store.search.searchText
+    }
+}
+
+export default connect(select)(Main) 
