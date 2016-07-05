@@ -20,7 +20,44 @@ import Autocomplete from 'react-native-autocomplete-input'
 //import UserIngredientsView from './UserIngredientsView'
 import updateSearchText from '../actions/search'
 
-var MOCKED_INGREDIENTS = ["豬絞肉", "牛絞肉", "豬肉片", "南瓜", "玉米", "碗豆", "冬瓜", "蓮子", "番茄"]
+var MOCKED_INGREDIENTS = [
+    {
+        "text": "豬絞肉",
+        "id": 7
+    },
+    { 
+        "text": "牛絞肉",
+        "id": 21
+    },
+    {
+        "text": "豬肉片",
+        "id": 445
+    },
+    {
+        "text": "南瓜",
+        "id": 127
+    },
+    {
+        "text": "玉米",
+        "id": 141,
+    },
+    {
+        "text": "碗豆",
+        "id": 147
+    },
+    {
+        "text": "冬瓜",
+        "id": 743
+    },
+    {
+        "text": "蓮子",
+        "id": 755
+    },
+    {
+        "text": "番茄",
+        "id": 121
+    }
+]
 
 class Main extends React.Component {
     constructor (props) {
@@ -54,7 +91,7 @@ class Main extends React.Component {
         if (query === ''){
             return [];
         }
-        return MOCKED_INGREDIENTS.filter(igd => igd.indexOf(query) >= 0 );
+        return MOCKED_INGREDIENTS.filter(igd => igd.text.indexOf(query) >= 0 );
     }
     
     renderAutocompleteList (data) {
@@ -62,20 +99,21 @@ class Main extends React.Component {
             <TouchableOpacity
                 onPress={this.pickIngredient.bind(this, data)}
             >
-                <Text>{data}</Text>
+                <Text>{data.text}</Text>
             </TouchableOpacity>
         )
     }
     
     pickIngredient (ingredient) {
-       this.props.dispatch(updateSearchText(ingredient));
+       this.props.dispatch(updateSearchText(ingredient.text));
+       this.props.dispatch(searchRecipes(ingredient.id));
     }
     
     render () {
         const { searchText } = this.props;
         const filteredIngredients = this.filterIngredients(searchText);
         var displayedIngredients;
-        if (filteredIngredients.length === 1 && searchText.trim() === filteredIngredients[0].trim()) {
+        if (filteredIngredients.length === 1 && searchText.trim() === filteredIngredients[0].text.trim()) {
             displayedIngredients = [];
         }else {
             displayedIngredients = filteredIngredients;
@@ -152,7 +190,8 @@ let styles = StyleSheet.create({
         marginLeft: 50
     },
     recipesContainer: {
-        paddingTop: 60
+        paddingTop: 60,
+        flex: 1
     }
 })
 

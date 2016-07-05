@@ -12,6 +12,8 @@ var {
   RefreshControl,
 } = ReactNative;
 
+var GiftedSpinner = require('react-native-gifted-spinner');
+
 
 // small helper function which merged two objects into one
 function MergeRecursive(obj1, obj2) {
@@ -29,7 +31,6 @@ function MergeRecursive(obj1, obj2) {
   return obj1;
 }
 
-var GiftedSpinner = require('react-native-gifted-spinner');
 
 var GiftedListView = React.createClass({
 

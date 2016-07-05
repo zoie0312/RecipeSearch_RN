@@ -1,6 +1,7 @@
 import * as types from '../constants/ActionTypes'
 
-let SEARCH_RECIPE_URL = 'http://192.168.43.27:8020/recipematch/search_recipes/'
+//let SEARCH_RECIPE_URL = 'http://192.168.43.27:8020/recipematch/search_recipes/'
+let SEARCH_RECIPE_URL = 'http://192.168.0.100:8020/recipematch/search_recipes/'
 
 export function searchRecipes(searchIngredients) {
     var json_data = {};
@@ -18,8 +19,8 @@ export function searchRecipes(searchIngredients) {
     return (dispatch, getState) => {
         dispatch(displaySearch(searchIngredients))
         return fetch(SEARCH_RECIPE_URL, opt)
-            .then(response => response.json())
-            .then(json => {
+            //.then(response => {debugger;response.json()})
+            .then(response => {
                 console.log('search recipe responsed successfully');
                 dispatch(fetchRecipes());
             })
