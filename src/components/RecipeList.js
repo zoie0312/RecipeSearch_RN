@@ -10,10 +10,11 @@ var {
   Platform
 } = ReactNative;
 
-//var GiftedListView = require('react-native-gifted-listview');
 import GiftedListView from './GiftedListView'
 import RecipeItem from './RecipeItem'
 var GiftedSpinner = require('react-native-gifted-spinner');
+
+import {finishFetchingRecipes} from '../actions/recipe'
 
 var MOCKED_RECIPE_DATA = [
   {
@@ -40,6 +41,8 @@ class RecipeList extends React.Component{
   
   constructor(props) {
       super(props)
+      
+      this._onFetch = this._onFetch.bind(this)
   }
   
   /**
@@ -50,6 +53,7 @@ class RecipeList extends React.Component{
    * @param {object} options Inform if first load
    */
   _onFetch(page = 1, callback, options) {
+    var me = this;
     var xhr = new XMLHttpRequest();
     var url = 'http://192.168.0.100:8020/recipematch/search_result/?page=' +
     //var url = 'http://192.168.43.27:8020/recipematch/search_result/?page=' +
@@ -72,6 +76,7 @@ class RecipeList extends React.Component{
                         image: recipe.large_img_url
                     })
                 });
+                me.props.dispatch(finishFetchingRecipes());
                 callback(rows);
             } else {
                 console.log(xhr.statusText);
@@ -272,12 +277,11 @@ class RecipeList extends React.Component{
   }
   
   componentWillUpdate(nextProps, nextStates) {
-      console.log('RecipeList component will update');
       if (nextProps.RecipeList.isSearching) {
-          this.refs.giftedlistview.reset();
+          this.refs.giftedlistview.showSearching();
       }
       if (nextProps.RecipeList.isFetchingRecipes) {
-          this.refs.giftedlistview.reInitialize();
+          this.refs.giftedlistview.fetchRecipes();
       }
   }
   
@@ -292,7 +296,7 @@ class RecipeList extends React.Component{
           onFetch={this._onFetch}
           initialListSize={12} // the maximum number of rows displayable without scrolling (height of the listview / height of row)
 
-          firstLoader={true} // display a loader for the first fetching
+          firstLoader={false} // display a loader for the first fetching
       
           pagination={true} // enable infinite scrolling using touch to load more
           paginationFetchigView={this._renderPaginationFetchigView}

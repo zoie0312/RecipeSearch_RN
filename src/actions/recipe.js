@@ -28,14 +28,20 @@ export function searchRecipes(searchIngredients) {
     }
 }
 
-function displaySearch(searchText) {
+export function finishFetchingRecipes() {
+    return {
+        type: types.FINISH_FETCHING_RECIPES
+    }
+} 
+
+export function displaySearch(searchText) {
     return {
         type: types.DISPLAY_SEARCH
         
     }
 }
 
-function fetchRecipes() {
+export function fetchRecipes() {
     return {
         type: types.FETCH_RECIPES
     }

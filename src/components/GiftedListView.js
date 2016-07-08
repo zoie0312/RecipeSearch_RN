@@ -38,7 +38,7 @@ var GiftedListView = React.createClass({
     return {
       customStyles: {},
       initialListSize: 10,
-      firstLoader: true,
+      firstLoader: false,
       pagination: true,
       refreshable: true,
       refreshableColors: undefined,
@@ -184,7 +184,7 @@ var GiftedListView = React.createClass({
       return {
         dataSource: ds.cloneWithRowsAndSections(this._getRows()),
         isRefreshing: false,
-        paginationStatus: 'firstLoad',
+        paginationStatus: 'allLoaded',
       };
     } else {
       ds = new ListView.DataSource({
@@ -193,13 +193,14 @@ var GiftedListView = React.createClass({
       return {
         dataSource: ds.cloneWithRows(this._getRows()),
         isRefreshing: false,
-        paginationStatus: 'firstLoad',
+        paginationStatus: 'allLoaded',
       };
     }
   },
 
   componentDidMount() {
-    this.props.onFetch(this._getPage(), this._postRefresh, {firstLoad: true});
+    //console.log('GiftListView componentDidMount called');
+    //this.props.onFetch(this._getPage(), this._postRefresh, {firstLoad: true});
     //console.log('initial page=' + this._getPage());
   },
 
@@ -277,11 +278,11 @@ var GiftedListView = React.createClass({
   _renderPaginationView() {
     if ((this.state.paginationStatus === 'fetching' && this.props.pagination === true) || (this.state.paginationStatus === 'firstLoad' && this.props.firstLoader === true)) {
       return this.paginationFetchingView();
-    } else if (this.state.paginationStatus === 'waiting' && this.props.pagination === true && (this.props.withSections === true || this._getRows().length > 0)) {
+    } else if (this.state.paginationStatus === 'waiting' && this.props.pagination === true && (this.props.withSections === true || Object.keys(this._getRows()).length > 0)) {
       return this.paginationWaitingView(this._onPaginate);
     } else if (this.state.paginationStatus === 'allLoaded' && this.props.pagination === true) {
       return this.paginationAllLoadedView();
-    } else if (this._getRows().length === 0) {
+    } else if (Object.keys(this._getRows()).length === 0) {
       return this.emptyView(this._onRefresh);
     } else {
       return null;
@@ -305,7 +306,7 @@ var GiftedListView = React.createClass({
     );
   },
   
-  reset() {
+  showSearching() {
       this._setRows([]);
       var new_ds = this.state.dataSource.cloneWithRowsAndSections([]);
       this.setState({
@@ -314,11 +315,11 @@ var GiftedListView = React.createClass({
       })
   },
   
-  reInitialize() {
+  fetchRecipes() {
       this._setPage(1);
-      this.props.onFetch(this._getPage(), this._postRefresh, {firstLoad: true});
+      this.props.onFetch(this._getPage(), this._postRefresh, {firstLoad: false});
       this.setState({
-          paginationStatus: 'firstLoad'
+          paginationStatus: 'fetching'
       })
   },
 

@@ -14,7 +14,7 @@ let {
 let deviceWidth = Dimensions.get('window').width
 
 import RecipeList from './RecipeList'
-import {searchRecipes} from '../actions/recipe'
+import {searchRecipes, displaySearch, fetchRecipes} from '../actions/recipe'
 import {connect} from 'react-redux'
 import Autocomplete from 'react-native-autocomplete-input'
 //import UserIngredientsView from './UserIngredientsView'
@@ -107,6 +107,16 @@ class Main extends React.Component {
     pickIngredient (ingredient) {
        this.props.dispatch(updateSearchText(ingredient.text));
        this.props.dispatch(searchRecipes(ingredient.id));
+    }
+    
+    componentDidMount () {
+        //console.log('Main component componentDidMount called');
+        const { searchText } = this.props;
+        if (searchText !== '') {
+            //this.props.dispatch(displaySearch(searchText));
+            this.props.dispatch(fetchRecipes());
+        }
+        
     }
     
     render () {
