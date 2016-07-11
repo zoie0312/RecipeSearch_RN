@@ -9,8 +9,7 @@ let {
 
 import {connect} from 'react-redux'
 
-//import RecipeItem from '../components/RecipeItem'
-import MainContainer from './MainContainer'
+import Root from './Root'
 import switchTab from '../actions/navigation'
 
 var MOCKED_RECIPE_DATA = [
@@ -21,7 +20,7 @@ var MOCKED_RECIPE_DATA = [
   }
 ];
 
-class App extends React.Component {
+class App extends React.Component { //this serves as the root container of App
     
     constructor(props) {
         super(props);
@@ -62,8 +61,8 @@ class App extends React.Component {
                 return true;
             }
         }
-        if (this.props.tab !== 'main') {
-            this.props.dispatch(switchTab('main'));
+        if (this.props.tab !== 'Home') {
+            this.props.dispatch(switchTab('Home'));
             return true;
         }
         
@@ -80,7 +79,7 @@ class App extends React.Component {
     
     configureScene(route) {
          
-        if (route.name === 'recipeDetail') {
+        if (route.name === 'Recipe Detail') {
             return Navigator.SceneConfigs.PushFromRight;
         }
         return Navigator.SceneConfigs.PushFromRight;
@@ -95,7 +94,7 @@ class App extends React.Component {
                 configureScene={this.configureScene}  
                 renderScene={this.renderScene}
                 initialRoute={{
-                    component: MainContainer,
+                    component: Root,
                     name: 'Main'
                 }}
             />
@@ -115,9 +114,9 @@ var styles = StyleSheet.create({
     }
 });
 
-function select(store) {
+function select(state) {
     return {
-        tab: store.navigation.tab
+        tab: state.navigation.tab
     }
 }
 

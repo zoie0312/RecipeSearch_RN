@@ -12,17 +12,13 @@ let {
 
 import {connect} from 'react-redux'
 
-import Main from '../Home/Main'
+import HomeView from '../Home/HomeView'
 import UserIngredientsView from '../UserIngredients/UserIngredientsView'
-import ShoppingList from '../ShoppingList/ShoppingList'
+import ShoppingListView from '../ShoppingList/ShoppingList'
 import MenuItem from './MenuItem'
 import switchTab from '../actions/navigation'
 
-class MainContainer extends React.Component {
-    //  props: {
-    //      tab: 'MainContainer',
-    //      navigator: Navigator
-    //  };
+class Root extends React.Component {
        
     constructor(props) {
         super(props);
@@ -58,15 +54,15 @@ class MainContainer extends React.Component {
             <View style={styles.drawer}>
                 <MenuItem
                     title="My Ingredients"
-                    onPress={this.onTabSelect.bind(this, 'user-ingredients')}
+                    onPress={this.onTabSelect.bind(this, 'User Ingredients')}
                 />
                 <MenuItem
                     title="My Shopping List"
-                    onPress={this.onTabSelect.bind(this, 'user-shoppinglist')}
+                    onPress={this.onTabSelect.bind(this, 'User Shoppinglist')}
                 />
                 <MenuItem
                     title="Settings"
-                    onPress={this.onTabSelect.bind(this, 'settings')}
+                    onPress={this.onTabSelect.bind(this, 'Settings')}
                 />    
             </View>
         )
@@ -74,22 +70,22 @@ class MainContainer extends React.Component {
     
     renderContent() {
         switch (this.props.tab) {
-            case 'main':
+            case 'Home':
                 return (
-                    <Main {...this.props}/>
+                    <HomeView {...this.props}/>
                 );
                 
-            case 'user-ingredients': 
+            case 'User Ingredients': 
                 return (
                     <UserIngredientsView {...this.props} />
                 );
                 
-            case 'user-shoppinglist':
+            case 'User Shoppinglist':
                 return (
-                    <ShoppingList {...this.props} />
+                    <ShoppingListView {...this.props} />
                 );
                 
-            case 'settings':
+            case 'Settings':
                 return;
         }
         throw new Error(`Unknown tab ${this.props.tab}`);
@@ -110,17 +106,16 @@ class MainContainer extends React.Component {
     } 
 }
 
-MainContainer.childContextTypes =  {
+Root.childContextTypes =  {
         openDrawer: React.PropTypes.func
 };
 
-function select(store) { //mapStateToProps from Redux
+function select(state) { //mapStateToProps from Redux
     //const { items, RecipeList } = state
     return {
-        items: store.items,
-        RecipeList: store.recipe,
-        tab: store.navigation.tab
-        //reduxState: state
+        items: state.items,
+        RecipeList: state.recipe,
+        tab: state.navigation.tab
     }
 }
 
@@ -146,4 +141,4 @@ var styles = StyleSheet.create({
     }
 });
 
-export default connect(select, actions)(MainContainer)
+export default connect(select, actions)(Root)

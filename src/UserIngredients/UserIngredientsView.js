@@ -80,16 +80,16 @@ var UserIngredientsView = React.createClass({
     
     exitWithSave: function() {
         console.log('exit with save');
-        if (this.props.tab !== 'main') {
-            this.props.dispatch(switchTab('main'));
+        if (this.props.tab !== 'Home') {
+            this.props.dispatch(switchTab('Home'));
             //return true;
         }
     },
     
     exitWithoutSave: function() {
         console.log('exit without save');
-        if (this.props.tab !== 'main') {
-            this.props.dispatch(switchTab('main'));
+        if (this.props.tab !== 'Home') {
+            this.props.dispatch(switchTab('Home'));
             //return true;
         }
     },
@@ -167,9 +167,9 @@ var styles = StyleSheet.create({
     }
 });
 
-function select(store) { //mapStateToProps from Redux
+function select(state) { //mapStateToProps from Redux
     return {
-        updateIngredients: store.ingredient.updateIngredients
+        updateIngredients: state.ingredient.updateIngredients
     }
 }
 

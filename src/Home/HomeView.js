@@ -58,7 +58,7 @@ var MOCKED_INGREDIENTS = [
     }
 ]
 
-class Main extends React.Component {
+class HomeView extends React.Component {
     constructor (props) {
         super(props)
         
@@ -109,7 +109,7 @@ class Main extends React.Component {
     }
     
     componentDidMount () {
-        console.log('Main component componentDidMount called');
+        //console.log('HomeView componentDidMount called');
         const { searchText } = this.props;
         if (searchText !== '') {
             //this.props.dispatch(displaySearch(searchText));
@@ -167,7 +167,7 @@ class Main extends React.Component {
     }
 }
 
-Main.contextTypes = {
+HomeView.contextTypes = {
     openDrawer: React.PropTypes.func
 };
 
@@ -210,4 +210,4 @@ function select(store) { //mapStateToProps from Redux
     }
 }
 
-export default connect(select)(Main) 
+export default connect(select)(HomeView) 

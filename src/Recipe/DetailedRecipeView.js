@@ -6,7 +6,7 @@ let {
     Text
 } = ReactNative
 
-class Recipe extends React.Component{
+class DetailedRecipeView extends React.Component{
     constructor (props) {
         super(props)
     }
@@ -31,4 +31,4 @@ var styles = StyleSheet.create({
     }
 });
 
-export default Recipe
+export default DetailedRecipeView

@@ -9,7 +9,7 @@ let {
 } = ReactNative
 
 
-import Recipe from '../Recipe/Recipe'
+import DetailedRecipeView from '../Recipe/DetailedRecipeView'
 
 class RequiredIgds extends React.Component {
 	constructor (props) {
@@ -40,10 +40,10 @@ class RecipeItem extends React.Component {
     }
     
     onPressRecipeImage () {
-        console.log('recipe image pressed');
+        //console.log('recipe image pressed');
         this.props.navigator.push({
-            name: 'recipeDetail',
-            component: Recipe
+            name: 'Recipe Detail',
+            component: DetailedRecipeView
         })
     }
     

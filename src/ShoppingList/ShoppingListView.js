@@ -7,7 +7,7 @@ let {
     Text
 } = ReactNative
 
-class ShoppingList extends React.Component{
+class ShoppingListView extends React.Component{
     constructor (props) {
         super(props)
     }
@@ -32,4 +32,4 @@ var styles = StyleSheet.create({
     }
 });
 
-export default ShoppingList
+export default ShoppingListView
