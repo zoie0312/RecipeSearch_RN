@@ -12,10 +12,10 @@ let {
 
 import {connect} from 'react-redux'
 
-import Main from '../components/Main'
-import UserIngredientsView from '../components/UserIngredientsView'
-import ShoppingList from '../components/ShoppingList'
-import MenuItem from '../components/MenuItem'
+import Main from '../Home/Main'
+import UserIngredientsView from '../UserIngredients/UserIngredientsView'
+import ShoppingList from '../ShoppingList/ShoppingList'
+import MenuItem from './MenuItem'
 import switchTab from '../actions/navigation'
 
 class MainContainer extends React.Component {

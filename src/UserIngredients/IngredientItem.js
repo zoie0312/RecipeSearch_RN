@@ -1,5 +1,8 @@
 import React from 'react'
 import ReactNative from 'react-native'
+import {connect} from 'react-redux'
+
+import updateIngredientOwnership from '../actions/ingredient'
 
 let {
     View,
@@ -7,9 +10,6 @@ let {
     Text,
     Switch
 } = ReactNative
-
-import {connect} from 'react-redux'
-import updateIngredientOwnership from '../actions/ingredient'
 
 class IngredientItem extends React.Component{
     props: {

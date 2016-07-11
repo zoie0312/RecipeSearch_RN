@@ -1,5 +1,10 @@
 import React from 'react'
 import ReactNative from 'react-native'
+import {connect} from 'react-redux'
+
+import IngredientCategory from './IngredientCategory'
+import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
+import switchTab from '../actions/navigation'
 
 let {
     View,
@@ -11,11 +16,6 @@ let {
     Alert
 } = ReactNative
 
-import {connect} from 'react-redux'
-
-import IngredientCategory from './IngredientCategory'
-import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
-import switchTab from '../actions/navigation'
 
 var UserIngredientsView = React.createClass({
     

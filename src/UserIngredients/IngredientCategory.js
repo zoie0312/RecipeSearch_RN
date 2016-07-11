@@ -1,5 +1,8 @@
 import React from 'react'
 import ReactNative from 'react-native'
+import Collapsible from 'react-native-collapsible';
+
+import IngredientItem from './IngredientItem';
 
 let {
     View,
@@ -7,10 +10,6 @@ let {
     Text,
     TouchableHighlight
 } = ReactNative
-
-import Collapsible from 'react-native-collapsible';
-
-import IngredientItem from './IngredientItem';
 
 class IngredientCategory extends React.Component{
     props: {

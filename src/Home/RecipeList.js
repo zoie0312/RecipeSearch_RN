@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+var GiftedSpinner = require('react-native-gifted-spinner');
 var {
   StyleSheet,
   Text,
@@ -12,8 +13,6 @@ var {
 
 import GiftedListView from './GiftedListView'
 import RecipeItem from './RecipeItem'
-var GiftedSpinner = require('react-native-gifted-spinner');
-
 import {finishFetchingRecipes} from '../actions/recipe'
 
 var MOCKED_RECIPE_DATA = [

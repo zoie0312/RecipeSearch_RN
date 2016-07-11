@@ -1,5 +1,11 @@
 import React from 'react'
 import ReactNative from 'react-native'
+import {connect} from 'react-redux'
+import Autocomplete from 'react-native-autocomplete-input'
+
+import RecipeList from './RecipeList'
+import {searchRecipes, displaySearch, fetchRecipes} from '../actions/recipe'
+import updateSearchText from '../actions/search'
 
 let {
     StyleSheet,
@@ -12,13 +18,6 @@ let {
 } = ReactNative
 
 let deviceWidth = Dimensions.get('window').width
-
-import RecipeList from './RecipeList'
-import {searchRecipes, displaySearch, fetchRecipes} from '../actions/recipe'
-import {connect} from 'react-redux'
-import Autocomplete from 'react-native-autocomplete-input'
-//import UserIngredientsView from './UserIngredientsView'
-import updateSearchText from '../actions/search'
 
 var MOCKED_INGREDIENTS = [
     {
@@ -110,7 +109,7 @@ class Main extends React.Component {
     }
     
     componentDidMount () {
-        //console.log('Main component componentDidMount called');
+        console.log('Main component componentDidMount called');
         const { searchText } = this.props;
         if (searchText !== '') {
             //this.props.dispatch(displaySearch(searchText));
