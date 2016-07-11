@@ -2,6 +2,7 @@
 
 var React = require('react');
 var ReactNative = require('react-native');
+import {connect} from 'react-redux'
 var GiftedSpinner = require('react-native-gifted-spinner');
 var {
   StyleSheet,
@@ -276,10 +277,10 @@ class RecipeList extends React.Component{
   }
   
   componentWillUpdate(nextProps, nextStates) {
-      if (nextProps.RecipeList.isSearching) {
+      if (nextProps.isSearching) {
           this.refs.giftedlistview.showSearching();
       }
-      if (nextProps.RecipeList.isFetchingRecipes) {
+      if (nextProps.isFetchingRecipes) {
           this.refs.giftedlistview.fetchRecipes();
       }
   }
@@ -326,6 +327,12 @@ class RecipeList extends React.Component{
   }
 }
 
+function select(state) { //mapStateToProps from Redux
+    return {
+        isSearching: state.recipe.isSearching,
+        isFetchingRecipes: state.recipe.isFetchingRecipes
+    }
+}
 
 var customStyles = {
   separator: {
@@ -390,4 +397,4 @@ var screenStyles = {
   }
 };
 
-module.exports = RecipeList;
+export default connect(select)(RecipeList)

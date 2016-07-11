@@ -119,7 +119,7 @@ class HomeView extends React.Component {
     }
     
     render () {
-        const { searchText } = this.props;
+        const { searchText, navigator } = this.props;
         const filteredIngredients = this.filterIngredients(searchText);
         var displayedIngredients;
         if (filteredIngredients.length === 1 && searchText.trim() === filteredIngredients[0].text.trim()) {
@@ -148,7 +148,7 @@ class HomeView extends React.Component {
                 />*/}
                 <View style={styles.recipesContainer}>
                     <RecipeList
-                        {...this.props}
+                        navigator={navigator}
                     />
                 </View>
                 <Autocomplete

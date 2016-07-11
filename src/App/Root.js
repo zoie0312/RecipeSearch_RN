@@ -69,15 +69,18 @@ class Root extends React.Component {
     }
     
     renderContent() {
-        switch (this.props.tab) {
+        const {tab, navigator} = this.props;
+        switch (tab) {
             case 'Home':
                 return (
-                    <HomeView {...this.props}/>
+                    <HomeView navigator={navigator}/>
                 );
                 
             case 'User Ingredients': 
                 return (
-                    <UserIngredientsView {...this.props} />
+                    <UserIngredientsView 
+                        tab={tab}
+                    />
                 );
                 
             case 'User Shoppinglist':
@@ -88,7 +91,7 @@ class Root extends React.Component {
             case 'Settings':
                 return;
         }
-        throw new Error(`Unknown tab ${this.props.tab}`);
+        throw new Error(`Unknown tab ${tab}`);
     }
     
     render() {
@@ -113,7 +116,6 @@ Root.childContextTypes =  {
 function select(state) { //mapStateToProps from Redux
     //const { items, RecipeList } = state
     return {
-        items: state.items,
         RecipeList: state.recipe,
         tab: state.navigation.tab
     }
