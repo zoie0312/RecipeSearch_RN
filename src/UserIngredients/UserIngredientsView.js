@@ -2,7 +2,7 @@ import React from 'react'
 import ReactNative from 'react-native'
 import {connect} from 'react-redux'
 
-import IngredientCategory from './IngredientCategory'
+import IngredientEntity from './IngredientEntity'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
 import switchTab from '../actions/navigation'
 
@@ -29,7 +29,9 @@ var UserIngredientsView = React.createClass({
     
     getDefaultProps: function() {
         return {
-            updateIngredients: {}
+            updateIngredients: {},
+            path: '',
+            initialListData: []
         }
     },
     
@@ -54,15 +56,24 @@ var UserIngredientsView = React.createClass({
     },
   
     _genRows: function() {
-        return MOCKED_INGREDIENT_DATA;
+        if (this.props.listData.length > 0) {
+            return this.props.listData;
+        } else {
+            return this.props.initialListData;
+        }
     },
   
     _renderRow: function(rowData, sectionID, rowID) {
         return (
-            <IngredientCategory
+            <IngredientEntity
                 name={rowData.text}
                 key={rowData.text}
-                items={rowData.items}/>
+                items={rowData.items}
+                leaf={rowData.leaf}
+                id={rowData.id}
+                parentPath={this.props.path}
+                
+            />
                 
         )
     },
@@ -95,6 +106,13 @@ var UserIngredientsView = React.createClass({
     },
 
     render: function() {
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+            dataSource;
+        if (this.props.listData.length > 0) {
+            dataSource = ds.cloneWithRows(this.props.listData);
+        } else {
+            dataSource = ds.cloneWithRows(this.props.initialListData);
+        }
         return (
             <View style={styles.container}>
                 <ToolbarAndroid
@@ -104,11 +122,12 @@ var UserIngredientsView = React.createClass({
                     onActionSelected={this.exit}
                 />
                 <ListView
-                    dataSource={this.state.dataSource}
+                    dataSource={dataSource}
                     renderRow={this._renderRow}
                     initialListSize={1}
                     pageSize={2} 
-                    style={styles.container1}/>
+                    style={styles.container1}
+                />
                 
             </View>
                 
@@ -169,7 +188,9 @@ var styles = StyleSheet.create({
 
 function select(state) { //mapStateToProps from Redux
     return {
-        updateIngredients: state.ingredient.updateIngredients
+        updateIngredients: state.ingredient.updateIngredients,
+        path: state.ingredient.userIngredientsViewPath,
+        listData: state.ingredient.userIngredientsListData
     }
 }
 

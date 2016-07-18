@@ -17,6 +17,7 @@ import UserIngredientsView from '../UserIngredients/UserIngredientsView'
 import ShoppingListView from '../ShoppingList/ShoppingList'
 import MenuItem from './MenuItem'
 import switchTab from '../actions/navigation'
+import MOCKED_INGREDIENT_DATA from '../constants/IngredientData1'
 
 class Root extends React.Component {
        
@@ -80,6 +81,8 @@ class Root extends React.Component {
                 return (
                     <UserIngredientsView 
                         tab={tab}
+                        path=''
+                        initialListData={MOCKED_INGREDIENT_DATA}
                     />
                 );
                 
