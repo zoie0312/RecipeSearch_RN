@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import IngredientEntity from './IngredientEntity'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
 import switchTab from '../actions/navigation'
+import {updateUserIngredientsViewList} from '../actions/ingredient'
 
 let {
     View,
@@ -37,21 +38,30 @@ var UserIngredientsView = React.createClass({
     
     componentDidMount: function() {
         this.context.addBackButtonListener(this.handleBackButton);
+        this.oldViewData = [];
     },
     
     componentWillUnmount: function() {
         this.context.removeBackButtonListener(this.handleBackButton);
+        this.oldViewData = [];
+        this.props.dispatch(updateUserIngredientsViewList("", []));
     },
     
     handleBackButton: function() {
         var me = this;
-        Alert.alert('離開!', '儲存變更?', 
-            [
-                {text: 'Yes', onPress:  me.exitWithSave},
-                {text: 'No', onPress: me.exitWithoutSave}
-                    
-            ]
-        );
+        if (me.oldViewData.length > 0) {
+            var nextViewData = me.oldViewData.pop();
+            me.props.dispatch(updateUserIngredientsViewList(nextViewData.path, nextViewData.listData));
+        } else {
+        
+            Alert.alert('離開!', '儲存變更?', 
+                [
+                    {text: 'Yes', onPress:  me.exitWithSave},
+                    {text: 'No', onPress: me.exitWithoutSave}
+                        
+                ]
+            );
+        }
         return true;
     },
   
@@ -102,6 +112,16 @@ var UserIngredientsView = React.createClass({
         if (this.props.tab !== 'Home') {
             this.props.dispatch(switchTab('Home'));
             //return true;
+        }
+    },
+    
+    componentWillUpdate: function(nextProps, nextStates) {
+        var newPath = nextProps.path;
+        if (newPath.indexOf(this.props.path) > -1) {
+            this.oldViewData.push({
+                path: this.props.path,
+                listData: this.props.listData
+            });
         }
     },
 
