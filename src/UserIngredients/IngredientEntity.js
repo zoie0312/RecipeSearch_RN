@@ -21,16 +21,16 @@ class IngredientEntity extends React.Component{
         name: 'test_name',
         items: [],
         parentPath: '',
-        leaf: undefined
+        leaf: undefined,
+        isOwned: false
     };
     
     constructor (props) {
         super(props)
         
-        //this.state = {collapsed: true};
-        if (this.props.leaf) {
+        /*if (this.props.leaf) {
             this.state = {checked: false}
-        }
+        }*/
         this._toggleExpanded = this._toggleExpanded.bind(this);
         this.generateEntity = this.generateEntity.bind(this);
         this.toggleIngredient = this.toggleIngredient.bind(this);
@@ -38,7 +38,6 @@ class IngredientEntity extends React.Component{
     }
     
     _toggleExpanded() {
-        //this.setState({ collapsed: !this.state.collapsed });
         var newPath = this.props.parentPath + '/' + this.props.name,
             newListData = this.props.items;
         this.props.dispatch(updateUserIngredientsViewList(newPath, newListData));
@@ -47,9 +46,9 @@ class IngredientEntity extends React.Component{
     changeValue () {
         console.log('changeValue called');
         var ingredient = {};
-        ingredient[this.props.id] = !this.state.checked;
+        ingredient[this.props.id] = !this.props.isOwned;
         this.props.dispatch(updateIngredientOwnership(ingredient));
-        this.setState({checked: !this.state.checked});
+        //this.setState({checked: !this.state.checked});
     }
     
     toggleIngredient() {
@@ -66,7 +65,7 @@ class IngredientEntity extends React.Component{
                         <Switch
                             onValueChange={this.changeValue}
                             style={{marginBottom: 1}}
-                            value={this.state.checked}/>
+                            value={this.props.isOwned}/>
                     </View>
                 </TouchableHighlight>
             )
@@ -113,4 +112,23 @@ var styles = StyleSheet.create({
     }
 });
 
-export default connect()(IngredientEntity)
+function getIngredientOwnership (state, props) {
+    if (props.leaf) {
+        if (state.ingredient.updateIngredients[props.id]) {
+            return state.ingredient.updateIngredients[props.id];
+        }else {
+            return false;
+        }
+    } else {
+        return undefined;
+    }
+}
+
+
+function select(state, props) {
+    return {
+        isOwned: getIngredientOwnership(state, props)
+    }
+}
+
+export default connect(select)(IngredientEntity)

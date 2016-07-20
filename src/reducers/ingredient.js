@@ -24,7 +24,7 @@ function ingredient(state=initialState, action) {
             return {...state, syncingUserIngredients: true};
             
         case types.FINISH_SYNCING_INGREDIENTS:
-            return {...state, syncingUserIngredients: false};
+            return {...state, syncingUserIngredients: false, updateIngredients: {}};
            
         default:
             return state;
