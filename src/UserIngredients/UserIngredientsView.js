@@ -154,6 +154,7 @@ var UserIngredientsView = React.createClass({
                     actions={[{title: 'back', icon: require('../../assets/ic_arrow_back_black_24dp.png'), show: 'always'}]}
                     onActionSelected={this.exit}
                 />
+                <Text style={styles.path}>{this.props.path}</Text>
                 <ListView
                     dataSource={dataSource}
                     renderRow={this._renderRow}
@@ -211,17 +212,15 @@ var styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
         padding: 10,
     },
-    headerText: {
-        textAlign: 'center',
-        fontSize: 16,
-        fontWeight: '500',
-    },
-    
     active: {
         backgroundColor: 'rgba(255,255,255,1)',
     },
     inactive: {
         backgroundColor: 'rgba(245,252,255,1)',
+    },
+    path: {
+        fontSize: 16,
+        color: '#DF7400'    
     }
 });
 

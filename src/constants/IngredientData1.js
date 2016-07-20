@@ -868,7 +868,7 @@ var MOCKED_INGREDIENT_DATA1 =[
         ]
     },
     {
-        "text": "製成品/半成品",
+        "text": "製成品、半成品",
         "items": [
             {
                 "text": "肉類加工品",
