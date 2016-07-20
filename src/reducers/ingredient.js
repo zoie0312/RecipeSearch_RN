@@ -3,7 +3,8 @@ import * as types from '../constants/ActionTypes'
 const initialState = {
     updateIngredients: {},
     userIngredientsViewPath: '',
-    userIngredientsListData: []
+    userIngredientsListData: [],
+    syncingUserIngredients: false
 }
 
 function ingredient(state=initialState, action) {
@@ -18,6 +19,13 @@ function ingredient(state=initialState, action) {
                 userIngredientsViewPath: action.newPath,
                 userIngredientsListData: action.newListData
             });
+            
+        case types.SHOW_SYNCING_INGREDIENTS:
+            return {...state, syncingUserIngredients: true};
+            
+        case types.FINISH_SYNCING_INGREDIENTS:
+            return {...state, syncingUserIngredients: false};
+           
         default:
             return state;
     }

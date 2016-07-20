@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import IngredientEntity from './IngredientEntity'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
 import switchTab from '../actions/navigation'
-import {updateUserIngredientsViewList} from '../actions/ingredient'
+import {updateUserIngredientsViewList, syncUserIngredients} from '../actions/ingredient'
 
 let {
     View,
@@ -14,7 +14,8 @@ let {
     ToolbarAndroid,
     TouchableHighlight,
     ListView,
-    Alert
+    Alert,
+    ProgressBarAndroid
 } = ReactNative
 
 
@@ -101,14 +102,26 @@ var UserIngredientsView = React.createClass({
     
     exitWithSave: function() {
         console.log('exit with save');
-        if (this.props.tab !== 'Home') {
-            this.props.dispatch(switchTab('Home'));
-            //return true;
+        this.props.dispatch(syncUserIngredients(this.props.updateIngredients));
+    },
+    
+    getUpdatingView: function() {
+        if (this.props.isUpdatingUserIngredients) {
+            return (
+                <View style={styles.updatingContainer}>
+                    <Text style={{color: "blue"}}>Updating Ingredients...</Text>
+                    <ProgressBarAndroid 
+                        styleAttr="Normal"
+                        color="blue"
+                    />
+                </View>
+            )
         }
     },
     
+    
     exitWithoutSave: function() {
-        console.log('exit without save');
+        //console.log('exit without save');
         if (this.props.tab !== 'Home') {
             this.props.dispatch(switchTab('Home'));
             //return true;
@@ -117,7 +130,7 @@ var UserIngredientsView = React.createClass({
     
     componentWillUpdate: function(nextProps, nextStates) {
         var newPath = nextProps.path;
-        if (newPath.indexOf(this.props.path) > -1) {
+        if (newPath.indexOf(this.props.path) > -1 && newPath !== this.props.path) {
             this.oldViewData.push({
                 path: this.props.path,
                 listData: this.props.listData
@@ -148,7 +161,7 @@ var UserIngredientsView = React.createClass({
                     pageSize={2} 
                     style={styles.container1}
                 />
-                
+                {this.getUpdatingView()}
             </View>
                 
         )
@@ -166,6 +179,12 @@ var styles = StyleSheet.create({
         //alignItems: 'center',
         flexDirection: 'column',
         backgroundColor: 'white'
+    },
+    updatingContainer: {
+        flex: 1,
+        position: 'absolute',
+        top: 200,
+        marginLeft: 125
     },
     content1: {
         flex: 1,
@@ -210,7 +229,8 @@ function select(state) { //mapStateToProps from Redux
     return {
         updateIngredients: state.ingredient.updateIngredients,
         path: state.ingredient.userIngredientsViewPath,
-        listData: state.ingredient.userIngredientsListData
+        listData: state.ingredient.userIngredientsListData,
+        isUpdatingUserIngredients: state.ingredient.syncingUserIngredients
     }
 }
 
