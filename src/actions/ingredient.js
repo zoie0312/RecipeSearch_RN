@@ -1,5 +1,12 @@
+import ReactNative from 'react-native'
+
 import * as types from '../constants/ActionTypes'
 import switchTab from './navigation'
+import {STORAGE_KEY} from '../constants/AppData'
+
+let {
+    AsyncStorage
+} = ReactNative
 
 let UPDATE_INGREDIENTS_URL = 'http://192.168.0.100:8020/recipematch/update_ingredients/'
 export function updateIngredientOwnership(updateIngredient) {
@@ -35,6 +42,9 @@ export function syncUserIngredients(updatedIngredients) {
                 console.log('update ingredients successfully');
                 dispatch(finishSyncingIngredients());
                 dispatch(switchTab('Home'));
+                AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(updatedIngredients), () => {
+                    console.log('updated ingredients saved locally');
+                });
             })
             .catch(error => console.log(error))
     }
@@ -49,5 +59,11 @@ export function showSyncingIngredients() {
 export function finishSyncingIngredients() {
     return {
         type: types.FINISH_SYNCING_INGREDIENTS
+    }
+}
+
+export function resetUserIngredientsView () {
+    return {
+        type: types.RESET_USER_INGREDIENTS_VIEW
     }
 }

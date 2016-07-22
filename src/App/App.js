@@ -4,21 +4,15 @@ import ReactNative from 'react-native'
 let {
     Navigator,
     StyleSheet,
-    BackAndroid
+    BackAndroid,
+    AsyncStorage
 } = ReactNative
 
 import {connect} from 'react-redux'
 
 import Root from './Root'
 import switchTab from '../actions/navigation'
-
-var MOCKED_RECIPE_DATA = [
-  {
-  	title: '宮保雞丁',
-  	ingredient_list: ['雞胸肉', '醬油膏', '蒜頭', '乾辣椒', '蔥'],
-  	image: 'https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/129209/large_fd890f1d7f58519d.jpg'
-  }
-];
+import {STORAGE_KEY} from "../constants/AppData"
 
 class App extends React.Component { //this serves as the root container of App
     
@@ -34,6 +28,19 @@ class App extends React.Component { //this serves as the root container of App
     
     componentDidMount() {
         BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
+        this.initialize().done();
+    }
+    
+    async initialize() {
+        // initialize App-wise data
+        try {
+            var value = await AsyncStorage.getItem(STORAGE_KEY);
+            if (value === null) {
+                await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({}));
+            }
+        } catch (error) {
+            console.log('AsyncStorage error: ' + error.message);
+        }
     }
     
     getChildContext() {

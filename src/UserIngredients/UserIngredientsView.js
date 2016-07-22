@@ -5,7 +5,8 @@ import {connect} from 'react-redux'
 import IngredientEntity from './IngredientEntity'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
 import switchTab from '../actions/navigation'
-import {updateUserIngredientsViewList, syncUserIngredients} from '../actions/ingredient'
+import {updateUserIngredientsViewList, syncUserIngredients, resetUserIngredientsView} from '../actions/ingredient'
+import * as appdata from '../constants/AppData'
 
 let {
     View,
@@ -15,19 +16,13 @@ let {
     TouchableHighlight,
     ListView,
     Alert,
-    ProgressBarAndroid
+    ProgressBarAndroid,
+    AsyncStorage
 } = ReactNative
 
 
 var UserIngredientsView = React.createClass({
     
-    getInitialState: function() {
-        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        return {
-            collapsed: true,
-            dataSource: ds.cloneWithRows(this._genRows()),
-        }
-    },
     
     getDefaultProps: function() {
         return {
@@ -38,14 +33,27 @@ var UserIngredientsView = React.createClass({
     },
     
     componentDidMount: function() {
+        
         this.context.addBackButtonListener(this.handleBackButton);
         this.oldViewData = [];
+        
+    },
+    
+    componentWillMount: function() {
+        var me = this;
+        try {
+            AsyncStorage.getItem(appdata.STORAGE_KEY, (err, result) => {
+                me.localUserIngredients = JSON.parse(result);
+            });
+        } catch (error) {
+            console.log('AsyncStorage error: ' + error.message)
+        }
     },
     
     componentWillUnmount: function() {
         this.context.removeBackButtonListener(this.handleBackButton);
         this.oldViewData = [];
-        this.props.dispatch(updateUserIngredientsViewList("", []));
+        this.props.dispatch(resetUserIngredientsView());
     },
     
     handleBackButton: function() {
@@ -75,6 +83,10 @@ var UserIngredientsView = React.createClass({
     },
   
     _renderRow: function(rowData, sectionID, rowID) {
+        if (rowData.leaf) {
+            var isOwned = this.localUserIngredients[rowData.id.toString()] ? true : false;
+        }
+        
         return (
             <IngredientEntity
                 name={rowData.text}
@@ -82,6 +94,7 @@ var UserIngredientsView = React.createClass({
                 items={rowData.items}
                 leaf={rowData.leaf}
                 id={rowData.id}
+                isOwned={isOwned}
                 parentPath={this.props.path}
                 
             />

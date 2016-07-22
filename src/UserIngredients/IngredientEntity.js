@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 
 //import IngredientItem from './IngredientItem';
 import {updateUserIngredientsViewList, updateIngredientOwnership} from '../actions/ingredient' 
-//import  from '../actions/ingredient'
 
 let {
     View,
@@ -28,9 +27,9 @@ class IngredientEntity extends React.Component{
     constructor (props) {
         super(props)
         
-        /*if (this.props.leaf) {
-            this.state = {checked: false}
-        }*/
+        if (this.props.leaf) {
+            this.state = {checked: this.props.isOwned}
+        }
         this._toggleExpanded = this._toggleExpanded.bind(this);
         this.generateEntity = this.generateEntity.bind(this);
         this.toggleIngredient = this.toggleIngredient.bind(this);
@@ -45,14 +44,16 @@ class IngredientEntity extends React.Component{
     
     changeValue () {
         console.log('changeValue called');
-        var ingredient = {};
-        ingredient[this.props.id] = !this.props.isOwned;
-        this.props.dispatch(updateIngredientOwnership(ingredient));
-        //this.setState({checked: !this.state.checked});
+        
+        if (this.props.leaf) {
+            var ingredient = {};
+            ingredient[this.props.id] = !this.state.checked;
+            this.props.dispatch(updateIngredientOwnership(ingredient));
+        }
+        this.setState({checked: !this.state.checked});
     }
     
     toggleIngredient() {
-        console.log('toggleIngredient called');
         this.changeValue();
     }
     
@@ -65,7 +66,7 @@ class IngredientEntity extends React.Component{
                         <Switch
                             onValueChange={this.changeValue}
                             style={{marginBottom: 1}}
-                            value={this.props.isOwned}/>
+                            value={this.state.checked}/>
                     </View>
                 </TouchableHighlight>
             )
@@ -124,11 +125,11 @@ function getIngredientOwnership (state, props) {
     }
 }
 
-
 function select(state, props) {
     return {
         isOwned: getIngredientOwnership(state, props)
     }
 }
 
-export default connect(select)(IngredientEntity)
+
+export default connect()(IngredientEntity)

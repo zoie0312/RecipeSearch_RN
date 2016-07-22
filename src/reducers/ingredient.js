@@ -26,6 +26,9 @@ function ingredient(state=initialState, action) {
         case types.FINISH_SYNCING_INGREDIENTS:
             return {...state, syncingUserIngredients: false, updateIngredients: {}};
            
+        case types.RESET_USER_INGREDIENTS_VIEW:
+            return initialState
+        
         default:
             return state;
     }
