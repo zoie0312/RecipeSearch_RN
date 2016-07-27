@@ -1,7 +1,5 @@
 import * as types from '../constants/ActionTypes'
-
-//let SEARCH_RECIPE_URL = 'http://192.168.43.27:8020/recipematch/search_recipes/'
-let SEARCH_RECIPE_URL = 'http://192.168.0.100:8020/recipematch/search_recipes/'
+import {SEARCH_RECIPE_URL} from '../constants/AppData'
 
 export function searchRecipes(searchIngredients) {
     var json_data = {};

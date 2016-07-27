@@ -15,6 +15,7 @@ var {
 import GiftedListView from './GiftedListView'
 import RecipeItem from './RecipeItem'
 import {finishFetchingRecipes} from '../actions/recipe'
+import * as urls from '../constants/AppData'
 
 var MOCKED_RECIPE_DATA = [
   {
@@ -55,8 +56,7 @@ class RecipeList extends React.Component{
   _onFetch(page = 1, callback, options) {
     var me = this;
     var xhr = new XMLHttpRequest();
-    var url = 'http://192.168.0.100:8020/recipematch/search_result/?page=' +
-    //var url = 'http://192.168.43.27:8020/recipematch/search_result/?page=' +
+    var url = urls.SEARCH_REAULT_URL + 
         (page) + '&start=' + 
         ((page-1)*15) + '&limit=' +
         (page*15);

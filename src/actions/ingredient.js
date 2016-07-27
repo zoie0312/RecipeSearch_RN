@@ -2,13 +2,12 @@ import ReactNative from 'react-native'
 
 import * as types from '../constants/ActionTypes'
 import switchTab from './navigation'
-import {STORAGE_KEY} from '../constants/AppData'
+import {STORAGE_KEY, UPDATE_INGREDIENTS_URL} from '../constants/AppData'
 
 let {
     AsyncStorage
 } = ReactNative
 
-let UPDATE_INGREDIENTS_URL = 'http://192.168.0.100:8020/recipematch/update_ingredients/'
 export function updateIngredientOwnership(updateIngredient) {
     return {
         type: 'UPDATE_INGREDIENT_OWNERSHIP',
