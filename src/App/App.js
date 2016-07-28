@@ -2,35 +2,36 @@ import React from 'react'
 import ReactNative from 'react-native'
 
 let {
-    Navigator,
     StyleSheet,
     BackAndroid,
     AsyncStorage
 } = ReactNative
 
 import {connect} from 'react-redux'
+import {Scene, Router, Modal} from 'react-native-router-flux'
 
-import Root from './Root'
+import Main from './Main'
 import switchTab from '../actions/navigation'
 import {STORAGE_KEY} from "../constants/AppData"
+import DetailedRecipeView from '../Recipe/DetailedRecipeView'
 
 class App extends React.Component { //this serves as the root container of App
-    
+
     constructor(props) {
         super(props);
-        
+
         this._handlers = [];
-        
+
         this.handleBackButton = this.handleBackButton.bind(this);
         this.addBackButtonListener = this.addBackButtonListener.bind(this);
         this.removeBackButtonListener = this.removeBackButtonListener.bind(this);
     }
-    
+
     componentDidMount() {
         BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
         this.initialize().done();
     }
-    
+
     async initialize() {
         // initialize App-wise data
         try {
@@ -42,18 +43,18 @@ class App extends React.Component { //this serves as the root container of App
             console.log('AsyncStorage error: ' + error.message);
         }
     }
-    
+
     getChildContext() {
         return {
             addBackButtonListener: this.addBackButtonListener,
             removeBackButtonListener: this.removeBackButtonListener,
         };
     }
-    
+
     componentWillUnmount() {
         BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
     }
-    
+
     addBackButtonListener(listener) {
         this._handlers.push(listener);
     }
@@ -61,7 +62,7 @@ class App extends React.Component { //this serves as the root container of App
     removeBackButtonListener(listener) {
         this._handlers = this._handlers.filter((handler) => handler !== listener);
     }
-    
+
     handleBackButton() {
         for (let i = this._handlers.length - 1; i >= 0; i--) {
             if (this._handlers[i]()) {
@@ -72,39 +73,23 @@ class App extends React.Component { //this serves as the root container of App
             this.props.dispatch(switchTab('Home'));
             return true;
         }
-        
+
         return false;
     }
-    
-    renderScene(route, navigator) {
-        let Component = route.component
-        
-        return (
-            <Component navigator={navigator} route={route} />
-        )
-    }
-    
-    configureScene(route) {
-         
-        if (route.name === 'Recipe Detail') {
-            return Navigator.SceneConfigs.PushFromRight;
-        }
-        return Navigator.SceneConfigs.PushFromRight;
-    }
-    
+
+
 	render () {
-        
+
         return (
-            <Navigator
-                ref="navigator"
-                style={styles.container}
-                configureScene={this.configureScene}  
-                renderScene={this.renderScene}
-                initialRoute={{
-                    component: Root,
-                    name: 'Main'
-                }}
-            />
+            <Router>
+                <Scene key="modal" component={Modal}>
+                    <Scene key="root" hideNavBar={true}>
+                        <Scene key="main" component={Main} initial={true} hideNavBar={true}/>
+                        <Scene key="detailrecipe" component={DetailedRecipeView}/>
+                    </Scene>
+                    <Scene key="error"/>
+                </Scene>
+            </Router>
         )
 	}
 }

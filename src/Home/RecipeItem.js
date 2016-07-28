@@ -7,7 +7,7 @@ let {
 	View,
     TouchableNativeFeedback
 } = ReactNative
-
+import {Actions} from 'react-native-router-flux'
 
 import DetailedRecipeView from '../Recipe/DetailedRecipeView'
 
@@ -41,13 +41,12 @@ class RecipeItem extends React.Component {
     
     onPressRecipeImage () {
         //console.log('recipe image pressed');
-        this.props.navigator.push({
-            name: 'Recipe Detail',
-            component: DetailedRecipeView
-        })
+        
+        Actions.detailrecipe();
     }
     
 	render () {
+    var me = this;
 		const {title, image} = this.props;
 		return (
 			<View style={styles.container}>
@@ -55,7 +54,7 @@ class RecipeItem extends React.Component {
 					{title}
 				</Text>
                 <TouchableNativeFeedback
-                    onPress={this.onPressRecipeImage}>
+                    onPress={this.onPressRecipeImage.bind(me)}>
 				<View style={styles.imageWrapper}>
 					<Image
 						//resizeMode='contain'

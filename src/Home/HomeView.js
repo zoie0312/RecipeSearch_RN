@@ -73,11 +73,6 @@ class HomeView extends React.Component {
     
     onIconClicked () {
         this.context.openDrawer();
-        //this.setState({searchIngredients: 'onion'});
-        // this.props.navigator.push({
-        //     name: 'userIngredients',
-        //     component: UserIngredientsView
-        // });
     }
     
     onSubmitEditing () {
@@ -112,14 +107,13 @@ class HomeView extends React.Component {
         //console.log('HomeView componentDidMount called');
         const { searchText } = this.props;
         if (searchText !== '') {
-            //this.props.dispatch(displaySearch(searchText));
             this.props.dispatch(fetchRecipes());
         }
         
     }
     
     render () {
-        const { searchText, navigator } = this.props;
+        const { searchText } = this.props;
         const filteredIngredients = this.filterIngredients(searchText);
         var displayedIngredients;
         if (filteredIngredients.length === 1 && searchText.trim() === filteredIngredients[0].text.trim()) {
@@ -147,9 +141,7 @@ class HomeView extends React.Component {
                     value={this.state.searchIngredients}
                 />*/}
                 <View style={styles.recipesContainer}>
-                    <RecipeList
-                        navigator={navigator}
-                    />
+                    <RecipeList/>
                 </View>
                 <Autocomplete
                     placeholder="Type Any Ingredient "

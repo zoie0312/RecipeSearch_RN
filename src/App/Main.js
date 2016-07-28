@@ -6,8 +6,7 @@ let {
     DrawerLayoutAndroid,
     StyleSheet,
     Text,
-    TouchableNativeFeedback,
-    Navigator
+    TouchableNativeFeedback
 } = ReactNative
 
 import {connect} from 'react-redux'
@@ -19,7 +18,7 @@ import MenuItem from './MenuItem'
 import switchTab from '../actions/navigation'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData1'
 
-class Root extends React.Component {
+class Main extends React.Component {
        
     constructor(props) {
         super(props);
@@ -44,10 +43,6 @@ class Root extends React.Component {
             this.props.onTabSelect(tab);
         }
         this.refs.drawer.closeDrawer();
-        // this.props.navigator.push({
-        //     name: 'userIngredients',
-        //     component: UserIngredientsView
-        // });
     } 
     
     renderNavigationView() {
@@ -70,11 +65,11 @@ class Root extends React.Component {
     }
     
     renderContent() {
-        const {tab, navigator} = this.props;
+        const {tab} = this.props;
         switch (tab) {
             case 'Home':
                 return (
-                    <HomeView navigator={navigator}/>
+                    <HomeView/>
                 );
                 
             case 'User Ingredients': 
@@ -112,7 +107,7 @@ class Root extends React.Component {
     } 
 }
 
-Root.childContextTypes =  {
+Main.childContextTypes =  {
         openDrawer: React.PropTypes.func
 };
 
@@ -146,4 +141,4 @@ var styles = StyleSheet.create({
     }
 });
 
-export default connect(select, actions)(Root)
+export default connect(select, actions)(Main)

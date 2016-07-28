@@ -17,26 +17,6 @@ import RecipeItem from './RecipeItem'
 import {finishFetchingRecipes} from '../actions/recipe'
 import * as urls from '../constants/AppData'
 
-var MOCKED_RECIPE_DATA = [
-  {
-  	//key: '超下飯 秒殺檸檬雞',
-    title: '超下飯 秒殺檸檬雞',
-  	ingredient_list: ['全聯土雞', '檸檬醬', '金蘭甘露油膏', '檸檬', '蕃茄醬'],
-  	image: 'https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/142375/large_4810b481f6dd4f48.jpg'
-  },
-  {
-  	//key: '宮保雞丁',
-    title: '宮保雞丁',
-  	ingredient_list: ['雞胸肉', '醬油膏', '蒜頭', '乾辣椒', '蔥'],
-  	image: 'https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/129209/large_fd890f1d7f58519d.jpg'
-  },
-  {
-    //key: '香蕉可可鐵鍋鬆餅',
-  	title: '香蕉可可鐵鍋鬆餅',
-  	ingredient_list: ['低筋麵粉', '鮮奶', '雞蛋', '香蕉', '鹽'],
-  	image: 'https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/148112/large_5bdb830776d3ec0c.jpg'
-  }
-];
 
 class RecipeList extends React.Component{
   
@@ -85,19 +65,6 @@ class RecipeList extends React.Component{
         }
     }
     xhr.send();
-    // setTimeout(() => {
-    //   var header = 'Header '+page;
-    //   var rows = {};
-    //   //rows[header] = ['row '+((page - 1) * 3 + 1), 'row '+((page - 1) * 3 + 2), 'row '+((page - 1) * 3 + 3)];
-    //   rows[header] = [MOCKED_RECIPE_DATA[0], MOCKED_RECIPE_DATA[1], MOCKED_RECIPE_DATA[2]];
-    //   if (page === 5) {
-    //     callback(rows, {
-    //       allLoaded: true, // the end of the list is reached
-    //     });        
-    //   } else {
-    //     callback(rows);
-    //   }
-    // }, 1000); // simulating network fetching
   }
   
   
@@ -116,7 +83,6 @@ class RecipeList extends React.Component{
   _renderRowView(rowData) {
        return (
            <RecipeItem
-               navigator={this.props.navigator}
                key={rowData.title}
                {...rowData}
            />
