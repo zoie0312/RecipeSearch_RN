@@ -26,6 +26,9 @@ module.exports = function(grunt) {
         //   event: ['added', 'deleted'],
         // },
       },
+      options: { 
+          interval: 1000 
+      }
     }
   });
 
