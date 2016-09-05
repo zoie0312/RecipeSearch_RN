@@ -47,7 +47,8 @@ class IngredientEntity extends React.Component{
         
         if (this.props.leaf) {
             var ingredient = {};
-            ingredient[this.props.id] = !this.state.checked;
+            //ingredient[this.props.id] = !this.state.checked;
+            ingredient[this.props.key] = !this.state.checked;
             this.props.dispatch(updateIngredientOwnership(ingredient));
         }
         this.setState({checked: !this.state.checked});

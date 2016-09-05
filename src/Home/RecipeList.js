@@ -52,8 +52,10 @@ class RecipeList extends React.Component{
                 resp.items.forEach(function(recipe, idx) {
                     rows[header].push({
                         title: recipe.title,
-                        ingredient_list: recipe.ingredients,
-                        image: recipe.large_img_url
+                        ingredientList: recipe.ingredients,
+                        image: recipe.large_img_url,
+                        smallImage: recipe.small_img_url, 
+                        sourceUrl: recipe.url
                     })
                 });
                 me.props.dispatch(finishFetchingRecipes());

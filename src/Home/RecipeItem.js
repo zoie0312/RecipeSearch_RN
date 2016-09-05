@@ -9,7 +9,7 @@ let {
 } = ReactNative
 import {Actions} from 'react-native-router-flux'
 
-import DetailedRecipeView from '../Recipe/DetailedRecipeView'
+import RecipeView from '../Recipe/RecipeView'
 
 class RequiredIgds extends React.Component {
 	constructor (props) {
@@ -17,12 +17,12 @@ class RequiredIgds extends React.Component {
     }
     
     render () {
-		const {ingredient_list} = this.props
-		let	igdLen = ingredient_list.length;
+		const {ingredientList} = this.props
+		let	igdLen = ingredientList.length;
 		return (
 			<Text style={styles.ingredients}>
 				所需食材: &nbsp;
-				{ingredient_list.map(function(ingredient, i){
+				{ingredientList.map(function(ingredient, i){
 					return (i === (igdLen-1) ? <Text key={i}>{ingredient.text}</Text> : <Text key={i}>{ingredient.text + '、'}</Text>)
 
 				})}
@@ -42,7 +42,7 @@ class RecipeItem extends React.Component {
     onPressRecipeImage () {
         //console.log('recipe image pressed');
         
-        Actions.detailrecipe();
+        Actions.detailrecipe(this.props);
     }
     
 	render () {

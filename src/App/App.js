@@ -13,7 +13,7 @@ import {Scene, Router, Modal} from 'react-native-router-flux'
 import Main from './Main'
 import switchTab from '../actions/navigation'
 import {STORAGE_KEY} from "../constants/AppData"
-import DetailedRecipeView from '../Recipe/DetailedRecipeView'
+import RecipeView from '../Recipe/RecipeView'
 
 class App extends React.Component { //this serves as the root container of App
 
@@ -80,12 +80,23 @@ class App extends React.Component { //this serves as the root container of App
 
 	render () {
 
-        return (
+        /*return (
             <Router>
                 <Scene key="modal" component={Modal}>
                     <Scene key="root" hideNavBar={true}>
                         <Scene key="main" component={Main} initial={true} hideNavBar={true}/>
-                        <Scene key="detailrecipe" component={DetailedRecipeView}/>
+                        <Scene key="detailrecipe" component={RecipeView}/>
+                    </Scene>
+                    <Scene key="error"/>
+                </Scene>
+            </Router>
+        )*/
+        return (
+            <Router>
+                <Scene key="modal" component={Modal}>
+                    <Scene key="root" hideNavBar={true}>
+                        <Scene key="main" component={Main} hideNavBar={true}/>
+                        <Scene key="detailrecipe" component={RecipeView} initial={true}/>
                     </Scene>
                     <Scene key="error"/>
                 </Scene>
