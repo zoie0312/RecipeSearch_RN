@@ -1,5 +1,8 @@
 import React from 'react'
 import ReactNative from 'react-native'
+import Button from 'react-native-button'
+import Modal from 'react-native-modalbox'
+
 let {
     View,
     StyleSheet,
@@ -8,11 +11,17 @@ let {
     ToolbarAndroid,
     Dimensions,
     Animated,
-    Easing
+    Easing,
+    WebView
 } = ReactNative
 
-let deviceHeight = Dimensions.get('window').height
-let deviceWidth = Dimensions.get('window').width
+var deviceHeight = Dimensions.get('window').height
+var deviceWidth = Dimensions.get('window').width
+let initialGap = (deviceHeight - (deviceHeight * 0.1)) - 40 - (deviceHeight * 0.4) - 70 - 65
+let initialIcon = require('../../assets/ic_autorenew_white_24dp.png')
+let sourceLoadingIcon = require('../../assets/reload.gif')
+let sourceExpandIcon = require('../../assets/ic_expand_less_black_24dp.png')
+let sourceCollapseIcon = require('../../assets/ic_expand_more_black_24dp.png')
 
 var MOCKED_DATA = {
     smallImage: "https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/32946/small_aa4b86e5608db954.jpg",
@@ -93,25 +102,81 @@ class RecipeView extends React.Component{
     constructor (props) {
         super(props);
         this.state = {  
-            shrinkValue: new Animated.Value(0)
+            shrinkValue: new Animated.Value(0),
+            isOpen: false,
+            url: '',
+            sourceLoaded: false,
+            gap: initialGap,
+            iconUrl: initialIcon
+            //sourceVisible: false
         };
         this.onIconClicked = this.onIconClicked.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.sourceLoadFinish = this.sourceLoadFinish.bind(this);
     }
 
     onIconClicked () {
         console.log('onIconClicked');
+        const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        if (this.state.sourceLoaded) {
+            this.setState(
+                {
+                    gap: this.state.gap === 0 ? initialGap : 0,
+                    iconUrl: this.state.gap === 0 ? sourceExpandIcon : sourceCollapseIcon
+                }
+            );
+            
+        } else {
+            this.setState(
+                {
+                    url: sourceUrl,
+                    //sourceLoaded: true,
+                    gap: 0,
+                    iconUrl: sourceLoadingIcon
+                }
+            );
+            
+        }
         Animated.timing(
             this.state.shrinkValue,
             {
-                toValue: -200,
+                toValue: (this.state.shrinkValue._value === 0)? -250 : 0,
                 easing: Easing.bounce
             }
         ).start();
+    }
+
+    openModal () {
+        console.log('open modal called');
+        const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        this.setState(
+            {
+                isOpen: true,
+                url: sourceUrl
+            }
+        );
+    }
+
+    closeModal () {
+        this.setState({isOpen: false});
+    }
+
+    sourceLoadFinish () {
+        this.setState(
+            {
+                iconUrl: sourceCollapseIcon,
+                sourceLoaded: true
+            }
+        );
     }
     
     render () {
         //const {title, image, sourceUrl, ingredientList} = this.props;
         const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+
+        var BContent = <Button onPress={this.closeModal} style={[styles.btn, styles.btnModal]}>XXXXXXX</Button>;
+
         return (
             <View style={styles.container}>
                 <Text style={styles.title}>
@@ -133,13 +198,27 @@ class RecipeView extends React.Component{
                             translateY: this.state.shrinkValue
                         }]
                     }]}>
-                    <ToolbarAndroid
-                        style={styles.toolbar}
-                        title="    詳細作法"
-                        navIcon={require('../../assets/ic_menu_black_24dp.png')}
-                        onIconClicked={this.onIconClicked}
+                    
+                    <Button 
+                        containerStyle={styles.btnContainer}
+                        onPress={this.onIconClicked}
+                        style = {styles.btn}
+                    >
+                        詳細作法
+                        <Image 
+                            style={styles.icon} 
+                            source={this.state.iconUrl}
+                        />
+                    </Button>
+                    <WebView 
+                        style={{
+                            height: deviceHeight,
+                            top: this.state.gap
+                        }}
+                        source={{uri: this.state.url}}
+                        scalesPageToFit={false}
+                        onLoad={this.sourceLoadFinish}
                     />
-                        
                     
                 </Animated.View>
             </View>
@@ -158,11 +237,11 @@ var styles = StyleSheet.create({
     title: {
         margin: 10,
         fontSize: 15,
-        textAlign: 'right'
+        textAlign: 'right',
+        height: 20
     },
     imageWrapper: {
         alignItems: 'center',
-		//backgroundColor: '#F5FCFF'
         backgroundColor: 'yellow',
         height: deviceHeight * 0.4
     },
@@ -171,17 +250,31 @@ var styles = StyleSheet.create({
 		height: deviceHeight * 0.4
 	},
     ingredients: {
-        //flex: 1
-    },
-    toolbar: {
-        backgroundColor: 'blue',
-        height: 40
+        margin: 10,
+        height: 50
     },
     sourceContainer: {
-        flex: 1,
-        backgroundColor: 'green',
+        backgroundColor: 'white',
         width: deviceWidth,
-        //height: deviceHeight * 0.3
+        height: deviceHeight
+    },
+    btnContainer: {
+        alignItems: 'center', 
+        margin: 10, 
+        height:45, 
+        overflow:'hidden', 
+        borderRadius:4, 
+        backgroundColor: '#3B5998'
+    },
+    btn: {
+        marginTop: 10,
+        backgroundColor: '#3B5998',
+        color: 'white',
+        textAlignVertical: 'center'
+    },
+    icon: {
+        marginLeft: 50, 
+        marginTop: 10
     }
 });
 
