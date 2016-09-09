@@ -2,6 +2,7 @@ import React from 'react'
 import ReactNative from 'react-native'
 import Button from 'react-native-button'
 import Modal from 'react-native-modalbox'
+import * as appdata from '../constants/AppData'
 
 let {
     View,
@@ -12,7 +13,8 @@ let {
     Dimensions,
     Animated,
     Easing,
-    WebView
+    WebView,
+    AsyncStorage
 } = ReactNative
 
 var deviceHeight = Dimensions.get('window').height
@@ -30,48 +32,70 @@ var MOCKED_DATA = {
     image: "https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/32946/large_aa4b86e5608db954.jpg",
     ingredientList: [
         {
-            notOwned:false,
-            text:"板豆腐"
+            "text": "豆腐",
+            "leaf": true,
+            "id": 409,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "絞肉"
+            "text": "豬絞肉",
+            "leaf": true,
+            "id": 7,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "蒜末"
+            "text": "大蒜",
+            "leaf": true,
+            "id": 186,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "蔥"
+            "text": "青蔥",
+            "leaf": true,
+            "id": 174,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "辣豆瓣醬"
+            "text": "豆瓣醬",
+            "leaf": true,
+            "id": 270,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "醬油"
+            "text": "醬油",
+            "leaf": true,
+            "id": 278,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "糖"
+            "text": "砂糖",
+            "leaf": true,
+            "id": 299,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "水"
+            "text": "水",
+            "leaf": true,
+            "id": 430,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "太白粉"
+            "text": "太白粉",
+            "leaf": true,
+            "id": 343,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "香油"
+            "text": "香油",
+            "leaf": true,
+            "id": 391,
+            "owned": false
         },
         {
-            notOwned:false,
-            text: "水"
+            "text": "水",
+            "leaf": true,
+            "id": 430,
+            "owned": false
         }
     ]
 }
@@ -79,17 +103,46 @@ var MOCKED_DATA = {
 class RequiredIgds extends React.Component {
 	constructor (props) {
         super(props)
+
+        this.state = {
+            localUserIngredients: ''
+        }
+    }
+
+    componentWillMount () {
+        var me = this;
+        try {
+            AsyncStorage.getItem(appdata.STORAGE_KEY, (err, result) => {
+                me.setState({ 
+                    localUserIngredients : JSON.parse(result)
+                });
+            });
+        } catch (error) {
+            console.log('AsyncStorage error: ' + error.message)
+        }
     }
     
     render () {
 		//const {ingredientList} = this.props
         const {ingredientList} = MOCKED_DATA
 		let	igdLen = ingredientList.length;
-		return (
+        var me = this; 
+		if (me.state.localUserIngredients === '') {
+            return (
+                <Text style={styles.ingredients}>
+				    所需食材: &nbsp;
+                </Text>
+            )
+        }
+        return (
 			<Text style={styles.ingredients}>
 				所需食材: &nbsp;
 				{ingredientList.map(function(ingredient, i){
-					return (i === (igdLen-1) ? <Text key={i}>{ingredient.text}</Text> : <Text key={i}>{ingredient.text + '、'}</Text>)
+                    if (me.state.localUserIngredients[ingredient.id] === true) {
+                        return (i === (igdLen-1) ? <Text key={i}>{ingredient.text}</Text> : <Text key={i}>{ingredient.text + '、'}</Text>)
+                    } else {
+                        return (i === (igdLen-1) ? <Text key={i} style={{color: 'red'}}>{ingredient.text}</Text> : <Text key={i} style={{color: 'red'}}>{ingredient.text + '、'}</Text>)
+                    }
 
 				})}
 			</Text>
@@ -108,16 +161,12 @@ class RecipeView extends React.Component{
             sourceLoaded: false,
             gap: initialGap,
             iconUrl: initialIcon
-            //sourceVisible: false
         };
         this.onIconClicked = this.onIconClicked.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
         this.sourceLoadFinish = this.sourceLoadFinish.bind(this);
     }
 
     onIconClicked () {
-        console.log('onIconClicked');
         const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
         if (this.state.sourceLoaded) {
             this.setState(
@@ -131,7 +180,6 @@ class RecipeView extends React.Component{
             this.setState(
                 {
                     url: sourceUrl,
-                    //sourceLoaded: true,
                     gap: 0,
                     iconUrl: sourceLoadingIcon
                 }
@@ -147,21 +195,6 @@ class RecipeView extends React.Component{
         ).start();
     }
 
-    openModal () {
-        console.log('open modal called');
-        const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
-        this.setState(
-            {
-                isOpen: true,
-                url: sourceUrl
-            }
-        );
-    }
-
-    closeModal () {
-        this.setState({isOpen: false});
-    }
-
     sourceLoadFinish () {
         this.setState(
             {
@@ -174,8 +207,6 @@ class RecipeView extends React.Component{
     render () {
         //const {title, image, sourceUrl, ingredientList} = this.props;
         const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
-
-        var BContent = <Button onPress={this.closeModal} style={[styles.btn, styles.btnModal]}>XXXXXXX</Button>;
 
         return (
             <View style={styles.container}>
