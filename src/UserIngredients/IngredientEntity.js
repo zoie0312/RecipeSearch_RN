@@ -43,12 +43,12 @@ class IngredientEntity extends React.Component{
     }
     
     changeValue () {
-        console.log('changeValue called');
+        //console.log('changeValue called');
         
         if (this.props.leaf) {
-            var ingredient = {};
-            //ingredient[this.props.id] = !this.state.checked;
-            ingredient[this.props.key] = !this.state.checked;
+            var ingredient = {ids:{}, names:{}};
+            ingredient['ids'][this.props.id] = !this.state.checked;
+            ingredient['names'][this.props.name] = !this.state.checked;
             this.props.dispatch(updateIngredientOwnership(ingredient));
         }
         this.setState({checked: !this.state.checked});
@@ -116,11 +116,11 @@ var styles = StyleSheet.create({
 
 function getIngredientOwnership (state, props) {
     if (props.leaf) {
-        if (state.ingredient.updateIngredients[props.id]) {
-            return state.ingredient.updateIngredients[props.id];
-        }else {
+        if (props.name in state.ingredient.updateIngredients['names']) {
+            return state.ingredient.updateIngredients['names'][props.name];
+        }/*else {
             return false;
-        }
+        }*/
     } else {
         return undefined;
     }

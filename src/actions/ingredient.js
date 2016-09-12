@@ -31,7 +31,7 @@ export function syncUserIngredients(updatedIngredients) {
         },
         method: 'POST',
         //body: JSON.stringify({78: true})
-        body: JSON.stringify(updatedIngredients)
+        body: JSON.stringify(updatedIngredients.ids)
         
     }
     return (dispatch, getState) => {
@@ -41,7 +41,7 @@ export function syncUserIngredients(updatedIngredients) {
                 console.log('update ingredients successfully');
                 dispatch(finishSyncingIngredients());
                 dispatch(switchTab('Home'));
-                AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(updatedIngredients), () => {
+                AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(updatedIngredients.names), () => {
                     console.log('updated ingredients saved locally');
                 });
             })

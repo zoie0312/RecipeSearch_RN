@@ -80,7 +80,7 @@ class App extends React.Component { //this serves as the root container of App
 
 	render () {
 
-        /*return (
+        return (
             <Router>
                 <Scene key="modal" component={Modal}>
                     <Scene key="root" hideNavBar={true}>
@@ -90,8 +90,8 @@ class App extends React.Component { //this serves as the root container of App
                     <Scene key="error"/>
                 </Scene>
             </Router>
-        )*/
-        return (
+        )
+        /*return (
             <Router>
                 <Scene key="modal" component={Modal}>
                     <Scene key="root" hideNavBar={true}>
@@ -101,7 +101,7 @@ class App extends React.Component { //this serves as the root container of App
                     <Scene key="error"/>
                 </Scene>
             </Router>
-        )
+        )*/
 	}
 }
 

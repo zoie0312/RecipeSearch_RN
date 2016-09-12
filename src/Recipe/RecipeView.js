@@ -123,8 +123,8 @@ class RequiredIgds extends React.Component {
     }
     
     render () {
-		//const {ingredientList} = this.props
-        const {ingredientList} = MOCKED_DATA
+		const {ingredientList} = this.props
+        //const {ingredientList} = MOCKED_DATA
 		let	igdLen = ingredientList.length;
         var me = this; 
 		if (me.state.localUserIngredients === '') {
@@ -138,7 +138,7 @@ class RequiredIgds extends React.Component {
 			<Text style={styles.ingredients}>
 				所需食材: &nbsp;
 				{ingredientList.map(function(ingredient, i){
-                    if (me.state.localUserIngredients[ingredient.id] === true) {
+                    if (me.state.localUserIngredients[ingredient.text] === true) {
                         return (i === (igdLen-1) ? <Text key={i}>{ingredient.text}</Text> : <Text key={i}>{ingredient.text + '、'}</Text>)
                     } else {
                         return (i === (igdLen-1) ? <Text key={i} style={{color: 'red'}}>{ingredient.text}</Text> : <Text key={i} style={{color: 'red'}}>{ingredient.text + '、'}</Text>)
@@ -167,7 +167,8 @@ class RecipeView extends React.Component{
     }
 
     onIconClicked () {
-        const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        //const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        const {title, image, sourceUrl, ingredientList} = this.props;
         if (this.state.sourceLoaded) {
             this.setState(
                 {
@@ -205,8 +206,8 @@ class RecipeView extends React.Component{
     }
     
     render () {
-        //const {title, image, sourceUrl, ingredientList} = this.props;
-        const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        const {title, image, sourceUrl, ingredientList} = this.props;
+        //const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
 
         return (
             <View style={styles.container}>
@@ -220,9 +221,8 @@ class RecipeView extends React.Component{
 						style={styles.recipeImage}
 					/>
 				</View>
-                {/*<RequiredIgds
-                    {...this.props}/>*/}
-                <RequiredIgds/>
+                <RequiredIgds
+                    {...this.props}/>
                 <Animated.View 
                     style={[styles.sourceContainer, {
                         transform: [{

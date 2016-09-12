@@ -83,8 +83,14 @@ var UserIngredientsView = React.createClass({
     },
   
     _renderRow: function(rowData, sectionID, rowID) {
+        var isOwned;
         if (rowData.leaf) {
-            var isOwned = this.localUserIngredients[rowData.id.toString()] ? true : false;
+            
+            if (rowData.text in this.props.updateIngredients.names) { //dirty changes
+                isOwned = this.props.updateIngredients.names[rowData.text];
+            } else {
+                isOwned = this.localUserIngredients[rowData.text] ? true : false;
+            }
         }
         
         return (
