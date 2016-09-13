@@ -2,6 +2,7 @@ import React from 'react'
 import ReactNative from 'react-native'
 import Button from 'react-native-button'
 import Modal from 'react-native-modalbox'
+import {Actions} from 'react-native-router-flux'
 import * as appdata from '../constants/AppData'
 
 let {
@@ -166,6 +167,19 @@ class RecipeView extends React.Component{
         this.sourceLoadFinish = this.sourceLoadFinish.bind(this);
     }
 
+    componentDidMount () {
+        this.context.addBackButtonListener(this.handleBackButton);
+    }
+
+    componentWillUnmount () {
+        this.context.removeBackButtonListener(this.handleBackButton);
+    }
+
+    handleBackButton () {
+        Actions.main();
+        return true;
+    }
+
     onIconClicked () {
         //const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
         const {title, image, sourceUrl, ingredientList} = this.props;
@@ -243,7 +257,6 @@ class RecipeView extends React.Component{
                     </Button>
                     <WebView 
                         style={{
-                            height: deviceHeight,
                             top: this.state.gap
                         }}
                         source={{uri: this.state.url}}
@@ -257,6 +270,11 @@ class RecipeView extends React.Component{
         )
     }
 }
+
+RecipeView.contextTypes = {
+    addBackButtonListener: React.PropTypes.func,
+    removeBackButtonListener: React.PropTypes.func
+};
 
 var styles = StyleSheet.create({
     container: {
@@ -287,7 +305,7 @@ var styles = StyleSheet.create({
     sourceContainer: {
         backgroundColor: 'white',
         width: deviceWidth,
-        height: deviceHeight
+        height: deviceHeight * 0.75
     },
     btnContainer: {
         alignItems: 'center', 

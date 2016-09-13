@@ -9,8 +9,6 @@ let {
 } = ReactNative
 import {Actions} from 'react-native-router-flux'
 
-import RecipeView from '../Recipe/RecipeView'
-
 class RequiredIgds extends React.Component {
 	constructor (props) {
         super(props)
