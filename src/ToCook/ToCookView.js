@@ -18,6 +18,7 @@ let {
 } = ReactNative
 
 const deviceHeight = Dimensions.get('window').height
+const deviceWidth = Dimensions.get('window').width
 
 var MOCKED_DATA = [
     {
@@ -182,8 +183,8 @@ class IngredientList extends React.Component{
     render () {
         var listDataSource = this.state.ds.cloneWithRows(this.genIngredientRows(this.props.ingredients, this.props.owned));
         return (
-            <View style={{flex: 1}}>
-                <Text style={{fontSize: 16, height: 30}}>{this.props.title}</Text>
+            <View style={{flex: 1, borderWidth: 1}}>
+                <Text style={styles.ingredientListTitle}>{this.props.title}</Text>
                 <ListView
                     style={styles.ingredientList}
                     dataSource={listDataSource}
@@ -231,7 +232,12 @@ class ToCookView extends React.Component{
         content = swiperItems.map(function(item, idx, array) {
             return (
                 <View style={styles.slide} key={idx+1}>
-                    <Text style={styles.slideTitle}>{item.title}</Text>
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                        <Text style={styles.slideTitle}>{item.title}</Text>
+                        <TouchableHighlight onPress={this.removeRecipe} >
+                            <Image source={require('../../assets/ic_cancel_black_24dp.png')}/>
+                        </TouchableHighlight>
+                    </View>
                     <Image style={styles.slideImage} source={{uri: item.image}}/>
                 </View>
             )
@@ -239,9 +245,11 @@ class ToCookView extends React.Component{
         return content;
     }
 
+    removeRecipe () {
+    
+    }
 
     onPressIngredient (alteredIgd) {
-        //console.log('ingredient pressed')
         var newCookRecipes = this.state.toCookRecipes
         newCookRecipes.forEach(function(rcp){
             rcp.ingredientList.forEach(function(igd){
@@ -292,10 +300,7 @@ class ToCookView extends React.Component{
                     {this.renderSwiperContent(swiperItems)}
                 </Swiper>
                 <View style={styles.ingredientsContainer}>
-                    <ToolbarAndroid 
-                        style={styles.toolbar}
-                        title="Required Ingredients"
-                    />
+                    <Text style={styles.reqIgdsTitle}>所需食材</Text>
                     <View style={{flex: 1, flexDirection: 'row'}}>
                         {/*<Text style={{fontSize: 16, height: 30}}>To Shop</Text>
                         <ListView
@@ -304,7 +309,7 @@ class ToCookView extends React.Component{
                             renderRow={this.renderIngredientRows}
                         />*/}
                         <IngredientList 
-                            title="I Own"
+                            title="I have"
                             ingredients={requiredIgds}
                             owned={true}
                             onPressIngredient={this.onPressIngredient}
@@ -340,12 +345,14 @@ var styles = StyleSheet.create({
     },
     ingredientsContainer: {
         flex: 1,
-        width: 300,
-        backgroundColor: 'blue',
+        width: deviceWidth,
+        //backgroundColor: 'blue',
         flexDirection: 'column'
     },
-    toolbar: {
-        height: 50
+    reqIgdsTitle: {
+        fontSize: 24,
+        textAlign: 'center',
+        lineHeight: 40
     },
     slide: {
         flex: 1,
@@ -353,7 +360,7 @@ var styles = StyleSheet.create({
         alignItems: 'center'
     },
     slideTitle: {
-        fontSize: 22
+        fontSize: 24
 
     },
     slideImage: {
@@ -361,17 +368,21 @@ var styles = StyleSheet.create({
         height: 270
     },
     ingredientList: {
-        flex: 1
+        flex: 1,
+        borderWidth: 1
+    },
+    ingredientListTitle: {
+        color: 'blue',
+        fontSize: 16,
+        fontWeight: 'bold', 
+        height: 30,
+        textAlign: 'center'
     },
     igdItemContainer: {
         padding: 10,
         flexDirection: 'row'
     }
-    //igdItemText: {
-    //    textAlign: 'left',
-    //    fontSize: 14,
-    //    fontWeight: '500'
-    //}
+    
 });
 
 export default ToCookView
