@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionTypes'
 
-const initialState = {tab: 'Home'}
-//const initialState = {tab: 'User Ingredients'}
+//const initialState = {tab: 'Home'}
+const initialState = {tab: 'User ToCook List'}
 
 function navigation(state=initialState, action) {
     switch(action.type) {

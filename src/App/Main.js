@@ -13,7 +13,7 @@ import {connect} from 'react-redux'
 
 import HomeView from '../Home/HomeView'
 import UserIngredientsView from '../UserIngredients/UserIngredientsView'
-import ShoppingListView from '../ShoppingList/ShoppingList'
+import ToCookView from '../ToCook/ToCookView'
 import MenuItem from './MenuItem'
 import switchTab from '../actions/navigation'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData1'
@@ -53,8 +53,8 @@ class Main extends React.Component {
                     onPress={this.onTabSelect.bind(this, 'User Ingredients')}
                 />
                 <MenuItem
-                    title="My Shopping List"
-                    onPress={this.onTabSelect.bind(this, 'User Shoppinglist')}
+                    title="To Cook List"
+                    onPress={this.onTabSelect.bind(this, 'User ToCook')}
                 />
                 <MenuItem
                     title="Settings"
@@ -81,9 +81,9 @@ class Main extends React.Component {
                     />
                 );
                 
-            case 'User Shoppinglist':
+            case 'User ToCook List':
                 return (
-                    <ShoppingListView {...this.props} />
+                    <ToCookView {...this.props} />
                 );
                 
             case 'Settings':
