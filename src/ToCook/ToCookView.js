@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactNative from 'react-native'
 
-//import SwipeableViews from 'react-swipeable-views/lib/index.native.animated';
 import Swiper from 'react-native-swiper'
 
 import IngredientItem from './IngredientItem'
@@ -198,19 +197,15 @@ class IngredientList extends React.Component{
 class ToCookView extends React.Component{
     constructor (props) {
         super(props)
-
-        //var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        
+       
         this.state = {
             swiperIndex: 0,
             toCookRecipes: [],
-            //ds: ds.cloneWithRows([])
         }
 
         this.renderSwiperContent = this.renderSwiperContent.bind(this)
         
         this.onPressIngredient = this.onPressIngredient.bind(this)
-        //this.genIngredientRows = this.genIngredientRows.bind(this)
         this.swipeRecipe = this.swipeRecipe.bind(this)
     }
 
@@ -227,14 +222,18 @@ class ToCookView extends React.Component{
     }
 
     renderSwiperContent (swiperItems) {
+        const me = this;
         let content
 
         content = swiperItems.map(function(item, idx, array) {
             return (
                 <View style={styles.slide} key={idx+1}>
-                    <View style={{flex: 1, flexDirection: 'row'}}>
+                    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={styles.slideTitle}>{item.title}</Text>
-                        <TouchableHighlight onPress={this.removeRecipe} >
+                        <TouchableHighlight 
+                            onPress={me.removeRecipe.bind(me, item)}
+                            style={{marginLeft: 5}} 
+                        >
                             <Image source={require('../../assets/ic_cancel_black_24dp.png')}/>
                         </TouchableHighlight>
                     </View>
@@ -245,8 +244,19 @@ class ToCookView extends React.Component{
         return content;
     }
 
-    removeRecipe () {
-    
+    removeRecipe (targetRecipe) {
+        //console.log('removeRecipe called');
+        let newCookRecipes = []
+        this.state.toCookRecipes.forEach(function(recipe) {
+            if (recipe.title !== targetRecipe.title) {
+                newCookRecipes.push(recipe)
+            }
+        })
+
+        this.setState({
+            toCookRecipes: newCookRecipes,
+            swiperIndex: 0
+        })
     }
 
     onPressIngredient (alteredIgd) {
@@ -264,7 +274,7 @@ class ToCookView extends React.Component{
     }
 
     swipeRecipe (e, swiperState, context) {
-        console.log('swipeRecipe called ' + swiperState.index)
+        //console.log('swipeRecipe called ' + swiperState.index)
         this.setState({
             swiperIndex: swiperState.index
         })
@@ -274,7 +284,6 @@ class ToCookView extends React.Component{
         var me = this;
         const swiperItems = this.state.toCookRecipes.map(recipeItem => {return {title: recipeItem.title, image: recipeItem.image}});
         let requiredIgds = {};
-        //let listDataSource;
         this.state.toCookRecipes.forEach(function(recipe, idx, arr){
             recipe.ingredientList.forEach(function(ingredient, idx, igdArr) {
                 if (!(ingredient.text in requiredIgds)) {
@@ -288,45 +297,75 @@ class ToCookView extends React.Component{
                 requiredIgds[ingredient.text]['highlight'] = requiredIgds[ingredient.text].usedIn.has(me.state.toCookRecipes[me.state.swiperIndex].title) ? true : false 
             });
         });
-        //listDataSource = this.state.ds.cloneWithRows(this.genIngredientRows(requiredIgds, false));
 
-        return (
-            <View style={styles.container}>
-                <Swiper 
-                    style={styles.wrapper} 
-                    height={deviceHeight * 0.5}
-                    onMomentumScrollEnd={this.swipeRecipe}
-                    showsButtons={true}>
-                    {this.renderSwiperContent(swiperItems)}
-                </Swiper>
-                <View style={styles.ingredientsContainer}>
-                    <Text style={styles.reqIgdsTitle}>所需食材</Text>
-                    <View style={{flex: 1, flexDirection: 'row'}}>
-                        {/*<Text style={{fontSize: 16, height: 30}}>To Shop</Text>
-                        <ListView
-                            style={styles.ingredientList}
-                            dataSource={listDataSource}
-                            renderRow={this.renderIngredientRows}
-                        />*/}
-                        <IngredientList 
-                            title="I have"
-                            ingredients={requiredIgds}
-                            owned={true}
-                            onPressIngredient={this.onPressIngredient}
-                        />
-                        <IngredientList 
-                            title="To Shop"
-                            ingredients={requiredIgds}
-                            owned={false}
-                            onPressIngredient={this.onPressIngredient}
-                        />
+        if (swiperItems.length < 2) {
+            const dummyRecipe = {title: '目前沒有任何食譜', image: '../../assets/ic_autorenew_white_24dp.png'}
+            const recipe = swiperItems.length === 1 ? swiperItems[0] : dummyRecipe
+            return (
+                <View style={styles.container}>
+                    <View style={styles.singleSlide} >
+                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={styles.slideTitle}>{recipe.title}</Text>
+                            <TouchableHighlight 
+                                onPress={me.removeRecipe.bind(me, recipe)}
+                                style={{marginLeft: 5}} 
+                            >
+                                <Image source={swiperItems.length === 1? require('../../assets/ic_cancel_black_24dp.png') : require('../../assets/ic_autorenew_white_24dp.png')}/>
+                            </TouchableHighlight>
+                        </View>
+                        <Image style={styles.slideImage} source={{uri: recipe.image}}/>
                     </View>
+                    <View style={styles.ingredientsContainer}>
+                        <Text style={styles.reqIgdsTitle}>所需食材</Text>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <IngredientList 
+                                title="I have"
+                                ingredients={requiredIgds}
+                                owned={true}
+                                onPressIngredient={this.onPressIngredient}
+                            />
+                            <IngredientList 
+                                title="To Shop"
+                                ingredients={requiredIgds}
+                                owned={false}
+                                onPressIngredient={this.onPressIngredient}
+                            />
+                        </View>
                         
-                    
+                    </View>
                 </View>
-            </View>
-                
-        )
+            )
+        }else{ 
+        
+            return (
+                <View style={styles.container}>
+                    <Swiper 
+                        height={deviceHeight * 0.5}
+                        onMomentumScrollEnd={this.swipeRecipe}
+                        showsButtons={true}>
+                        {this.renderSwiperContent(swiperItems)}
+                    </Swiper>
+                    <View style={styles.ingredientsContainer}>
+                        <Text style={styles.reqIgdsTitle}>所需食材</Text>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <IngredientList 
+                                title="I have"
+                                ingredients={requiredIgds}
+                                owned={true}
+                                onPressIngredient={this.onPressIngredient}
+                            />
+                            <IngredientList 
+                                title="To Shop"
+                                ingredients={requiredIgds}
+                                owned={false}
+                                onPressIngredient={this.onPressIngredient}
+                            />
+                        </View>
+                    </View>
+                </View>
+                    
+            )
+        }
     }
 }
 
@@ -346,7 +385,6 @@ var styles = StyleSheet.create({
     ingredientsContainer: {
         flex: 1,
         width: deviceWidth,
-        //backgroundColor: 'blue',
         flexDirection: 'column'
     },
     reqIgdsTitle: {
@@ -359,13 +397,18 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    singleSlide: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: deviceHeight * 0.5
+    },
     slideTitle: {
         fontSize: 24
-
     },
     slideImage: {
-        width: 360,
-        height: 270
+        width: 345,
+        height: 250
     },
     ingredientList: {
         flex: 1,
@@ -382,7 +425,6 @@ var styles = StyleSheet.create({
         padding: 10,
         flexDirection: 'row'
     }
-    
 });
 
 export default ToCookView

@@ -20,7 +20,7 @@ class IngredientItem extends React.Component{
             return {
                 padding: 10,
                 flexDirection: 'row',
-                borderWidth: 2,
+                borderTopWidth: 2,
                 justifyContent: 'space-between'
 
             }
@@ -28,7 +28,7 @@ class IngredientItem extends React.Component{
             return {
                 padding: 10,
                 flexDirection: 'row',
-                borderWidth: 1,
+                borderTopWidth: 1,
                 justifyContent: 'space-between',
                 opacity: 0.3
             }
@@ -42,25 +42,24 @@ class IngredientItem extends React.Component{
     render () {
         if (this.props.isOwned) {
             return (
-            <View style={this.getIgdContainerStyle(this.props.highlight)}>
-                <Text style={styles.igdItemText} >{this.props.name}</Text>
-                <TouchableHighlight onPress={this.onPressItem.bind(this)} >
-                    <Image source={require('../../assets/ic_check_box_black_24dp.png')}/>
-                </TouchableHighlight>
-            </View>
+                <View style={this.getIgdContainerStyle(this.props.highlight)}>
+                    <Text style={styles.igdItemText} >{this.props.name}</Text>
+                    <TouchableHighlight onPress={this.onPressItem.bind(this)} >
+                        <Image source={require('../../assets/ic_check_box_black_24dp.png')}/>
+                    </TouchableHighlight>
+                </View>
             
-        )
-        
+            )
         }else {
-        return (
-            <View style={this.getIgdContainerStyle(this.props.highlight)}>
-                <Text style={styles.igdItemText} >{this.props.name}</Text>
-                <TouchableHighlight onPress={this.onPressItem.bind(this)} >
-                    <Image source={require('../../assets/ic_check_box_outline_blank_black_24dp.png')}/>
-                </TouchableHighlight>
-            </View>
-            
-        )
+            return (
+                <View style={this.getIgdContainerStyle(this.props.highlight)}>
+                    <Text style={styles.igdItemText} >{this.props.name}</Text>
+                    <TouchableHighlight onPress={this.onPressItem.bind(this)} >
+                        <Image source={require('../../assets/ic_check_box_outline_blank_black_24dp.png')}/>
+                    </TouchableHighlight>
+                </View>
+                
+            )
         }
     }
 }

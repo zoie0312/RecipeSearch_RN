@@ -54,7 +54,7 @@ class Main extends React.Component {
                 />
                 <MenuItem
                     title="To Cook List"
-                    onPress={this.onTabSelect.bind(this, 'User ToCook')}
+                    onPress={this.onTabSelect.bind(this, 'User ToCook List')}
                 />
                 <MenuItem
                     title="Settings"
