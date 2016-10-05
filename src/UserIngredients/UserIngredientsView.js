@@ -42,7 +42,7 @@ var UserIngredientsView = React.createClass({
     componentWillMount: function() {
         var me = this;
         try {
-            AsyncStorage.getItem(appdata.STORAGE_KEY, (err, result) => {
+            AsyncStorage.getItem(appdata.STORAGE_KEY_USERLOCALINGREDIENTS, (err, result) => {
                 me.localUserIngredients = JSON.parse(result);
             });
         } catch (error) {

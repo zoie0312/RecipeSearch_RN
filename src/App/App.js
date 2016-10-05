@@ -12,7 +12,7 @@ import {Scene, Router, Modal} from 'react-native-router-flux'
 
 import Main from './Main'
 import switchTab from '../actions/navigation'
-import {STORAGE_KEY} from "../constants/AppData"
+import {STORAGE_KEY_USERLOCALINGREDIENTS, STORAGE_KEY_TOCOOKRECIPES} from "../constants/AppData"
 import RecipeView from '../Recipe/RecipeView'
 
 class App extends React.Component { //this serves as the root container of App
@@ -35,10 +35,14 @@ class App extends React.Component { //this serves as the root container of App
     async initialize() {
         // initialize App-wise data
         try {
-            var value = await AsyncStorage.getItem(STORAGE_KEY);
-            if (value === null) {
-                await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({}));
-            }
+            AsyncStorage.multiGet([STORAGE_KEY_USERLOCALINGREDIENTS, STORAGE_KEY_TOCOOKRECIPES], (err, stores) => {
+                stores.map((result, i, store) => {
+                    if (store[i][1] === null) {
+                        AsyncStorage.setItem(store[i][0], JSON.stringify({zzzz:{fhdlsjf:47521}}))
+                    }
+                    
+                })
+            });
         } catch (error) {
             console.log('AsyncStorage error: ' + error.message);
         }

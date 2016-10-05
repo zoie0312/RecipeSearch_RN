@@ -15,7 +15,9 @@ let {
     Animated,
     Easing,
     WebView,
-    AsyncStorage
+    AsyncStorage,
+    ToastAndroid,
+    TouchableHighlight
 } = ReactNative
 
 var deviceHeight = Dimensions.get('window').height
@@ -113,7 +115,7 @@ class RequiredIgds extends React.Component {
     componentWillMount () {
         var me = this;
         try {
-            AsyncStorage.getItem(appdata.STORAGE_KEY, (err, result) => {
+            AsyncStorage.getItem(appdata.STORAGE_KEY_USERLOCALINGREDIENTS, (err, result) => {
                 me.setState({ 
                     localUserIngredients : JSON.parse(result)
                 });
@@ -124,8 +126,8 @@ class RequiredIgds extends React.Component {
     }
     
     render () {
-		const {ingredientList} = this.props
-        //const {ingredientList} = MOCKED_DATA
+		//const {ingredientList} = MOCKED_DATA
+        const {ingredientList} = this.props
 		let	igdLen = ingredientList.length;
         var me = this; 
 		if (me.state.localUserIngredients === '') {
@@ -165,6 +167,7 @@ class RecipeView extends React.Component{
         };
         this.onIconClicked = this.onIconClicked.bind(this);
         this.sourceLoadFinish = this.sourceLoadFinish.bind(this);
+        this.addRecipe = this.addRecipe.bind(this);
     }
 
     componentDidMount () {
@@ -218,16 +221,41 @@ class RecipeView extends React.Component{
             }
         );
     }
+
+    addRecipe = () => {
+        //const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        const {title, image, sourceUrl, ingredientList} = this.props;
+        let updateValue = {}
+        updateValue[title] = {
+            title: title,
+            image: image,
+            ingredientList: ingredientList,
+            toCook: true
+        }
+        ToastAndroid.show('recipe ' + title + ' added to toCookList', ToastAndroid.SHORT)
+        AsyncStorage.mergeItem(appdata.STORAGE_KEY_TOCOOKRECIPES, JSON.stringify(updateValue), () => {
+            //console.log('add recipe for using later')
+        });     
+    }
     
     render () {
-        const {title, image, sourceUrl, ingredientList} = this.props;
         //const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        const {title, image, sourceUrl, ingredientList} = this.props;
+        const me = this;
 
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>
-                    {title}
-                </Text>
+                <View style={{flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.title}>
+                        {title}
+                    </Text>
+                    <TouchableHighlight 
+                        onPress={me.addRecipe}
+                        style={{marginLeft: 5}} 
+                    >
+                        <Image source={require('../../assets/ic_add_circle_black_24dp.png')}/>
+                    </TouchableHighlight>
+                </View>
                 <View 
                     style={styles.imageWrapper}>
 					<Image

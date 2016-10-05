@@ -2,7 +2,7 @@ import ReactNative from 'react-native'
 
 import * as types from '../constants/ActionTypes'
 import switchTab from './navigation'
-import {STORAGE_KEY, UPDATE_INGREDIENTS_URL} from '../constants/AppData'
+import {STORAGE_KEY_USERLOCALINGREDIENTS, UPDATE_INGREDIENTS_URL} from '../constants/AppData'
 
 let {
     AsyncStorage
@@ -41,7 +41,7 @@ export function syncUserIngredients(updatedIngredients) {
                 console.log('update ingredients successfully');
                 dispatch(finishSyncingIngredients());
                 dispatch(switchTab('Home'));
-                AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(updatedIngredients.names), () => {
+                AsyncStorage.mergeItem(STORAGE_KEY_USERLOCALINGREDIENTS, JSON.stringify(updatedIngredients.names), () => {
                     console.log('updated ingredients saved locally');
                 });
             })

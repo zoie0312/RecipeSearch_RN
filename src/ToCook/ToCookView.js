@@ -4,6 +4,7 @@ import ReactNative from 'react-native'
 import Swiper from 'react-native-swiper'
 
 import IngredientItem from './IngredientItem'
+import * as appdata from '../constants/AppData'
 
 let {
     View,
@@ -13,7 +14,8 @@ let {
     Image,
     Dimensions,
     ListView,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } = ReactNative
 
 const deviceHeight = Dimensions.get('window').height
@@ -215,10 +217,32 @@ class ToCookView extends React.Component{
         };
     }
 
-    componentWillMount () {
-        this.setState({
-            toCookRecipes: MOCKED_DATA
-        })
+
+    componentDidMount () {
+        const me = this;
+        const toCookRecipesKey = appdata.STORAGE_KEY_TOCOOKRECIPES;
+        const userIngredientsKey = appdata.STORAGE_KEY_USERLOCALINGREDIENTS;
+        try {
+            
+            AsyncStorage.multiGet([toCookRecipesKey, userIngredientsKey], (err, stores) => {
+                let tempStore = {}
+                let toCookRecipeList = []
+                stores.map((result, i, store) => {
+                    tempStore[store[i][0]] = JSON.parse(store[i][1])
+                })
+                Object.keys(tempStore[toCookRecipesKey]).forEach((key) => {
+                    if(key !== 'zzzz' && tempStore[toCookRecipesKey][key].toCook) {
+                        toCookRecipeList.push(tempStore[toCookRecipesKey][key])
+                    }
+                })
+                me.setState({
+                    toCookRecipes: toCookRecipeList,
+                    userLocalIngredients: tempStore[userIngredientsKey] === '' ? {} : tempStore[userIngredientsKey]
+                })
+            });
+        } catch (error) {
+            console.log('AsyncStorage error: ' + error.message)
+        }
     }
 
     renderSwiperContent (swiperItems) {
@@ -253,6 +277,10 @@ class ToCookView extends React.Component{
             }
         })
 
+        let recipesDelta = {}
+        recipesDelta[targetRecipe.title] = {toCook: false}
+        AsyncStorage.mergeItem(appdata.STORAGE_KEY_TOCOOKRECIPES, JSON.stringify(recipesDelta), () => {} )
+
         this.setState({
             toCookRecipes: newCookRecipes,
             swiperIndex: 0
@@ -260,16 +288,22 @@ class ToCookView extends React.Component{
     }
 
     onPressIngredient (alteredIgd) {
-        var newCookRecipes = this.state.toCookRecipes
+        let newCookRecipes = this.state.toCookRecipes
+        let newUserLocalIngredients = this.state.userLocalIngredients
         newCookRecipes.forEach(function(rcp){
             rcp.ingredientList.forEach(function(igd){
                 if(igd.text === alteredIgd.name){
                     igd.owned = !alteredIgd.isOwned
+                    newUserLocalIngredients[igd.text] = !alteredIgd.isOwned
                 }
             })
         })
+
+        AsyncStorage.mergeItem(appdata.STORAGE_KEY_USERLOCALINGREDIENTS, JSON.stringify(newUserLocalIngredients), () => {})
+
         this.setState({
-            toCookRecipes: newCookRecipes
+            toCookRecipes: newCookRecipes,
+            userLocalIngredients: newUserLocalIngredients
         })
     }
 
@@ -290,7 +324,7 @@ class ToCookView extends React.Component{
                     requiredIgds[ingredient.text] = {};
                     requiredIgds[ingredient.text]['name'] = ingredient.text;
                     requiredIgds[ingredient.text]['usedIn'] = new Set();
-                    requiredIgds[ingredient.text]['owned'] = ingredient.owned;
+                    requiredIgds[ingredient.text]['owned'] = me.state.userLocalIngredients[ingredient.text] ? true : false;
                     requiredIgds[ingredient.text]['highlight'] = false;
                 } 
                 requiredIgds[ingredient.text].usedIn.add(recipe.title);
