@@ -49,16 +49,22 @@ class Main extends React.Component {
         return (
             <View style={styles.drawer}>
                 <MenuItem
-                    title="My Ingredients"
-                    onPress={this.onTabSelect.bind(this, 'User Ingredients')}
+                    title="首頁"
+                    onPress={this.onTabSelect.bind(this, 'Home')}
                 />
                 <MenuItem
-                    title="To Cook List"
+                    title="我的食材"
+                    textStyle={{opacity: 0.3}}
+                    onPress={/*this.onTabSelect.bind(this, 'User Ingredients')*/ ooxx => {}}
+                />
+                <MenuItem
+                    title="料理清單"
                     onPress={this.onTabSelect.bind(this, 'User ToCook List')}
                 />
                 <MenuItem
-                    title="Settings"
-                    onPress={this.onTabSelect.bind(this, 'Settings')}
+                    title="設定"
+                    textStyle={{opacity: 0.3}}
+                    onPress={/*this.onTabSelect.bind(this, 'Settings')*/ ooxx => {}}
                 />    
             </View>
         )

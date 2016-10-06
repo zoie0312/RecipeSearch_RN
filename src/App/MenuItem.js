@@ -19,7 +19,7 @@ class MenuItem extends React.Component {
             <TouchableNativeFeedback
                 onPress={this.props.onPress}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>
+                    <Text style={[this.props.textStyle, styles.title]}>
                         {this.props.title}
                     </Text>
                 </View>

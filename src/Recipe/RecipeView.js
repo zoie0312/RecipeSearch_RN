@@ -168,6 +168,7 @@ class RecipeView extends React.Component{
         this.onIconClicked = this.onIconClicked.bind(this);
         this.sourceLoadFinish = this.sourceLoadFinish.bind(this);
         this.addRecipe = this.addRecipe.bind(this);
+        this.handleBackButton = this.handleBackButton.bind(this);
     }
 
     componentDidMount () {
@@ -179,6 +180,7 @@ class RecipeView extends React.Component{
     }
 
     handleBackButton () {
+        this.context.removeBackButtonListener(this.handleBackButton)
         Actions.main();
         return true;
     }
@@ -232,7 +234,7 @@ class RecipeView extends React.Component{
             ingredientList: ingredientList,
             toCook: true
         }
-        ToastAndroid.show('recipe ' + title + ' added to toCookList', ToastAndroid.SHORT)
+        ToastAndroid.show(title + ' 加到料理清單', ToastAndroid.SHORT)
         AsyncStorage.mergeItem(appdata.STORAGE_KEY_TOCOOKRECIPES, JSON.stringify(updateValue), () => {
             //console.log('add recipe for using later')
         });     

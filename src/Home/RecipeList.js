@@ -45,7 +45,7 @@ class RecipeList extends React.Component{
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 //console.log(xhr.responseText);
-                var header = 'Header '+page;
+                var header = 'Page '+page;
                 var rows = {};
                 rows[header] = [];
                 var resp = JSON.parse(xhr.responseText);
