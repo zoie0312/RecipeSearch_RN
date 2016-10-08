@@ -6,6 +6,7 @@ import Autocomplete from 'react-native-autocomplete-input'
 import RecipeList from './RecipeList'
 import {searchRecipes, displaySearch, fetchRecipes} from '../actions/recipe'
 import updateSearchText from '../actions/search'
+import ALL_SEARCHABLE_INGREDIENTS from '../constants/SearchableIngredients'
 
 let {
     StyleSheet,
@@ -18,45 +19,6 @@ let {
 } = ReactNative
 
 let deviceWidth = Dimensions.get('window').width
-
-var MOCKED_INGREDIENTS = [
-    {
-        "text": "豬絞肉",
-        "id": 7
-    },
-    { 
-        "text": "牛絞肉",
-        "id": 21
-    },
-    {
-        "text": "豬肉片",
-        "id": 445
-    },
-    {
-        "text": "南瓜",
-        "id": 127
-    },
-    {
-        "text": "玉米",
-        "id": 141,
-    },
-    {
-        "text": "碗豆",
-        "id": 147
-    },
-    {
-        "text": "冬瓜",
-        "id": 743
-    },
-    {
-        "text": "蓮子",
-        "id": 755
-    },
-    {
-        "text": "番茄",
-        "id": 121
-    }
-]
 
 class HomeView extends React.Component {
     constructor (props) {
@@ -85,7 +47,7 @@ class HomeView extends React.Component {
         if (query === ''){
             return [];
         }
-        return MOCKED_INGREDIENTS.filter(igd => igd.text.indexOf(query) >= 0 );
+        return ALL_SEARCHABLE_INGREDIENTS.filter(igd => igd.text.indexOf(query) >= 0 );
     }
     
     renderAutocompleteList (data) {
