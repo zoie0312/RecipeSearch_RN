@@ -216,12 +216,14 @@ class RecipeView extends React.Component{
     }
 
     sourceLoadFinish () {
-        this.setState(
-            {
-                iconUrl: sourceCollapseIcon,
-                sourceLoaded: true
-            }
-        );
+        if (this.state.url !== ''){ //skip the initial LoadFinish event
+            this.setState(
+                {
+                    iconUrl: sourceCollapseIcon,
+                    sourceLoaded: true
+                }
+            );
+        }
     }
 
     addRecipe = () => {

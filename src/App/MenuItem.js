@@ -30,7 +30,6 @@ class MenuItem extends React.Component {
 
 var styles = StyleSheet.create({
     container: {
-        //width: 150,
         height: 100,
         backgroundColor: 'yellow',
         borderWidth: 2,
