@@ -5,8 +5,7 @@ let {
     View,
     DrawerLayoutAndroid,
     StyleSheet,
-    Text,
-    TouchableNativeFeedback
+    Text
 } = ReactNative
 
 import {connect} from 'react-redux'
@@ -25,7 +24,6 @@ class Main extends React.Component {
         
         this.renderNavigationView = this.renderNavigationView.bind(this);
         this.openDrawer = this.openDrawer.bind(this);
-        //this.onTabSelect = this.onTabSelect.bind(this);
     }
     
     getChildContext() {

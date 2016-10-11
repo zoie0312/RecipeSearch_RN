@@ -14,7 +14,6 @@ class IngredientItem extends React.Component{
         super(props)
     }
 
-
     getIgdContainerStyle (hightlight) {
         if (hightlight) {
             return {

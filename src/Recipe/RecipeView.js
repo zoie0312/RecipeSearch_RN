@@ -10,7 +10,6 @@ let {
     StyleSheet,
     Text,
     Image,
-    ToolbarAndroid,
     Dimensions,
     Animated,
     Easing,
@@ -20,88 +19,13 @@ let {
     TouchableHighlight
 } = ReactNative
 
-var deviceHeight = Dimensions.get('window').height
-var deviceWidth = Dimensions.get('window').width
-let initialGap = (deviceHeight - (deviceHeight * 0.1)) - 40 - (deviceHeight * 0.4) - 70 - 65
-let initialIcon = require('../../assets/ic_autorenew_white_24dp.png')
-let sourceLoadingIcon = require('../../assets/reload.gif')
-let sourceExpandIcon = require('../../assets/ic_expand_less_black_24dp.png')
-let sourceCollapseIcon = require('../../assets/ic_expand_more_black_24dp.png')
-
-var MOCKED_DATA = {
-    smallImage: "https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/32946/small_aa4b86e5608db954.jpg",
-    sourceUrl: "https://icook.tw/recipes/32946",
-    title: "【哇菜影音食譜】魚香豆腐",
-    image: "https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/32946/large_aa4b86e5608db954.jpg",
-    ingredientList: [
-        {
-            "text": "豆腐",
-            "leaf": true,
-            "id": 409,
-            "owned": false
-        },
-        {
-            "text": "豬絞肉",
-            "leaf": true,
-            "id": 7,
-            "owned": false
-        },
-        {
-            "text": "大蒜",
-            "leaf": true,
-            "id": 186,
-            "owned": false
-        },
-        {
-            "text": "青蔥",
-            "leaf": true,
-            "id": 174,
-            "owned": false
-        },
-        {
-            "text": "豆瓣醬",
-            "leaf": true,
-            "id": 270,
-            "owned": false
-        },
-        {
-            "text": "醬油",
-            "leaf": true,
-            "id": 278,
-            "owned": false
-        },
-        {
-            "text": "砂糖",
-            "leaf": true,
-            "id": 299,
-            "owned": false
-        },
-        {
-            "text": "水",
-            "leaf": true,
-            "id": 430,
-            "owned": false
-        },
-        {
-            "text": "太白粉",
-            "leaf": true,
-            "id": 343,
-            "owned": false
-        },
-        {
-            "text": "香油",
-            "leaf": true,
-            "id": 391,
-            "owned": false
-        },
-        {
-            "text": "水",
-            "leaf": true,
-            "id": 430,
-            "owned": false
-        }
-    ]
-}
+const deviceHeight = Dimensions.get('window').height
+const deviceWidth = Dimensions.get('window').width
+const initialGap = (deviceHeight - (deviceHeight * 0.1)) - 40 - (deviceHeight * 0.4) - 70 - 65
+const initialIcon = require('../../assets/ic_autorenew_white_24dp.png')
+const sourceLoadingIcon = require('../../assets/reload.gif')
+const sourceExpandIcon = require('../../assets/ic_expand_less_black_24dp.png')
+const sourceCollapseIcon = require('../../assets/ic_expand_more_black_24dp.png')
 
 class RequiredIgds extends React.Component {
 	constructor (props) {
@@ -126,7 +50,7 @@ class RequiredIgds extends React.Component {
     }
     
     render () {
-		//const {ingredientList} = MOCKED_DATA
+		//const {ingredientList} = appdata.MOCKED_RECIPEVIEW_DATA
         const {ingredientList} = this.props
 		let	igdLen = ingredientList.length;
         var me = this; 
@@ -186,7 +110,7 @@ class RecipeView extends React.Component{
     }
 
     onIconClicked () {
-        //const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        //const {title, image, sourceUrl, ingredientList} = appdata.MOCKED_RECIPEVIEW_DATA;
         const {title, image, sourceUrl, ingredientList} = this.props;
         if (this.state.sourceLoaded) {
             this.setState(
@@ -227,7 +151,7 @@ class RecipeView extends React.Component{
     }
 
     addRecipe = () => {
-        //const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        //const {title, image, sourceUrl, ingredientList} = appdata.MOCKED_RECIPEVIEW_DATA;
         const {title, image, sourceUrl, ingredientList} = this.props;
         let updateValue = {}
         updateValue[title] = {
@@ -236,14 +160,13 @@ class RecipeView extends React.Component{
             ingredientList: ingredientList,
             toCook: true
         }
-        ToastAndroid.show(title + ' 加到料理清單', ToastAndroid.SHORT)
+        ToastAndroid.show(title + ' 已加到料理清單', ToastAndroid.SHORT)
         AsyncStorage.mergeItem(appdata.STORAGE_KEY_TOCOOKRECIPES, JSON.stringify(updateValue), () => {
-            //console.log('add recipe for using later')
         });     
     }
     
     render () {
-        //const {title, image, sourceUrl, ingredientList} = MOCKED_DATA;
+        //const {title, image, sourceUrl, ingredientList} = appdata.MOCKED_RECIPEVIEW_DATA;
         const {title, image, sourceUrl, ingredientList} = this.props;
         const me = this;
 

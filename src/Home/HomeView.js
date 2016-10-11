@@ -18,7 +18,7 @@ let {
     Text
 } = ReactNative
 
-let deviceWidth = Dimensions.get('window').width
+const deviceWidth = Dimensions.get('window').width
 
 class HomeView extends React.Component {
     constructor (props) {
@@ -66,7 +66,6 @@ class HomeView extends React.Component {
     }
     
     componentDidMount () {
-        //console.log('HomeView componentDidMount called');
         const { searchText } = this.props;
         if (searchText !== '') {
             this.props.dispatch(fetchRecipes());
@@ -106,7 +105,7 @@ class HomeView extends React.Component {
                     <RecipeList/>
                 </View>
                 <Autocomplete
-                    placeholder="Type Any Ingredient "
+                    placeholder="輸入食材名稱 "
                     containerStyle={styles.autocompleteContainer}
                     data={displayedIngredients}
                     defaultValue={searchText}

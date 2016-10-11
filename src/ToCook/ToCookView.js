@@ -18,132 +18,10 @@ let {
     AsyncStorage
 } = ReactNative
 
+//const MOCKED_TOCOOKVIEW_DATA = appdata.MOCKED_TOCOOKVIEW_DATA
+
 const deviceHeight = Dimensions.get('window').height
 const deviceWidth = Dimensions.get('window').width
-
-var MOCKED_DATA = [
-    {
-        title: "蛤蜊蒸蛋",
-        image: "https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/152225/large_1c5aa8124b3b8527.jpg",
-        ingredientList: [
-            
-            {
-                "text": "青蔥",
-                "id": 174,
-                "owned": false
-            },
-            {
-                "text": "豆瓣醬",
-                "id": 270,
-                "owned": false
-            },
-            {
-                "text": "醬油",
-                "id": 278,
-                "owned": false
-            },
-            {
-                "text": "砂糖",
-                "id": 299,
-                "owned": false
-            },
-            {
-                "text": "水",
-                "id": 430,
-                "owned": false
-            },
-            {
-                "text": "太白粉",
-                "id": 343,
-                "owned": false
-            },
-            {
-                "text": "香油",
-                "id": 391,
-                "owned": false
-            }
-        ]
-    },
-    {
-        title: "肉絲炒龍鬚菜",
-        image: "https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/171094/large_850ae9d829e75f96.jpg",
-        ingredientList: [
-            {
-                "text": "豆腐",
-                "id": 409,
-                "owned": false
-            },
-            {
-                "text": "豬絞肉",
-                "id": 7,
-                "owned": false
-            },
-            
-            {
-                "text": "砂糖",
-                "id": 299,
-                "owned": false
-            },
-            {
-                "text": "水",
-                "id": 430,
-                "owned": false
-            },
-            {
-                "text": "太白粉",
-                "id": 343,
-                "owned": false
-            },
-            {
-                "text": "香油",
-                "id": 391,
-                "owned": false
-            }
-        ]
-    },
-    {
-        title: "【哇菜影音食譜】魚香豆腐",
-        image: "https://dbjdsnch130xu.cloudfront.net/uploads/recipe/cover/32946/large_aa4b86e5608db954.jpg",
-        ingredientList: [
-            {
-                "text": "豆腐",
-                "id": 409,
-                "owned": false
-            },
-            {
-                "text": "豬絞肉",
-                "id": 7,
-                "owned": false
-            },
-            {
-                "text": "大蒜",
-                "id": 186,
-                "owned": false
-            },
-            {
-                "text": "青蔥",
-                "id": 174,
-                "owned": false
-            },
-            {
-                "text": "豆瓣醬",
-                "id": 270,
-                "owned": false
-            },
-            {
-                "text": "醬油",
-                "id": 278,
-                "owned": false
-            },
-            {
-                "text": "砂糖",
-                "id": 299,
-                "owned": false
-            }
-            
-        ]
-    }
-]
 
 class IngredientList extends React.Component{
     constructor (props) {
@@ -269,7 +147,6 @@ class ToCookView extends React.Component{
     }
 
     removeRecipe (targetRecipe) {
-        //console.log('removeRecipe called');
         let newCookRecipes = []
         this.state.toCookRecipes.forEach(function(recipe) {
             if (recipe.title !== targetRecipe.title) {
@@ -308,7 +185,6 @@ class ToCookView extends React.Component{
     }
 
     swipeRecipe (e, swiperState, context) {
-        //console.log('swipeRecipe called ' + swiperState.index)
         this.setState({
             swiperIndex: swiperState.index
         })
@@ -332,7 +208,7 @@ class ToCookView extends React.Component{
             });
         });
 
-        if (swiperItems.length < 2) {
+        if (swiperItems.length < 2) { //to avoid problems of dynamic rendering a Swiper with less than 2 items 
             const dummyRecipe = {title: '目前沒有任何食譜', image: '../../assets/ic_autorenew_white_24dp.png'}
             const recipe = swiperItems.length === 1 ? swiperItems[0] : dummyRecipe
             return (

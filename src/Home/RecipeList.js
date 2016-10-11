@@ -15,7 +15,7 @@ var {
 import GiftedListView from './GiftedListView'
 import RecipeItem from './RecipeItem'
 import {finishFetchingRecipes} from '../actions/recipe'
-import * as urls from '../constants/AppData'
+import {SEARCH_RESULT_URL} from '../constants/AppData'
 
 
 class RecipeList extends React.Component{
@@ -36,7 +36,7 @@ class RecipeList extends React.Component{
   _onFetch(page = 1, callback, options) {
     var me = this;
     var xhr = new XMLHttpRequest();
-    var url = urls.SEARCH_REAULT_URL + 
+    var url = SEARCH_RESULT_URL + 
         (page) + '&start=' + 
         ((page-1)*15) + '&limit=' +
         (page*15);
@@ -89,17 +89,6 @@ class RecipeList extends React.Component{
                {...rowData}
            />
        )
-    // return (
-    //   <TouchableHighlight 
-    //     style={customStyles.row} 
-    //     underlayColor='#c8c7cc'
-    //     onPress={() => this._onPress(rowData)}
-    //   >
-        
-    //     <Text key={rowData}>{rowData}</Text>
-      
-    //   </TouchableHighlight>
-    // );
   }
 
   /**

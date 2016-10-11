@@ -198,12 +198,6 @@ var GiftedListView = React.createClass({
     }
   },
 
-  componentDidMount() {
-    //console.log('GiftListView componentDidMount called');
-    //this.props.onFetch(this._getPage(), this._postRefresh, {firstLoad: true});
-    //console.log('initial page=' + this._getPage());
-  },
-
   setNativeProps(props) {
     this.refs.listview.setNativeProps(props);
   },

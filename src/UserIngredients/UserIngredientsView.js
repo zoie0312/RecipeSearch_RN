@@ -3,7 +3,6 @@ import ReactNative from 'react-native'
 import {connect} from 'react-redux'
 
 import IngredientEntity from './IngredientEntity'
-import MOCKED_INGREDIENT_DATA from '../constants/IngredientData'
 import switchTab from '../actions/navigation'
 import {updateUserIngredientsViewList, syncUserIngredients, resetUserIngredientsView} from '../actions/ingredient'
 import * as appdata from '../constants/AppData'
@@ -13,7 +12,6 @@ let {
     StyleSheet,
     Text,
     ToolbarAndroid,
-    TouchableHighlight,
     ListView,
     Alert,
     ProgressBarAndroid,
@@ -102,7 +100,6 @@ var UserIngredientsView = React.createClass({
                 id={rowData.id}
                 isOwned={isOwned}
                 parentPath={this.props.path}
-                
             />
                 
         )
@@ -138,12 +135,9 @@ var UserIngredientsView = React.createClass({
         }
     },
     
-    
     exitWithoutSave: function() {
-        //console.log('exit without save');
         if (this.props.tab !== 'Home') {
             this.props.dispatch(switchTab('Home'));
-            //return true;
         }
     },
     
@@ -196,7 +190,6 @@ UserIngredientsView.contextTypes = {
 var styles = StyleSheet.create({
     container: {
         flex: 1,
-        //alignItems: 'center',
         flexDirection: 'column',
         backgroundColor: 'white'
     },
@@ -218,7 +211,6 @@ var styles = StyleSheet.create({
     },
     container1: {
         flex: 1,
-        //justifyContent: 'center',
         backgroundColor: '#F5FCFF',
     },
     title: {
