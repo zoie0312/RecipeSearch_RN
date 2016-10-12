@@ -58,6 +58,7 @@ var GiftedListView = React.createClass({
       paginationWaitingView: null,
       emptyView: null,
       renderSeparator: null,
+      defaultRowData: {},
     };
   },
 
@@ -84,6 +85,7 @@ var GiftedListView = React.createClass({
     paginationWaitingView: React.PropTypes.func,
     emptyView: React.PropTypes.func,
     renderSeparator: React.PropTypes.func,
+    defaultRowData: React.PropTypes.object,
   },
 
   _setPage(page) { this._page = page; },
@@ -315,6 +317,26 @@ var GiftedListView = React.createClass({
       this.setState({
           paginationStatus: 'fetching'
       })
+  },
+
+  componentWillMount() {
+    const { defaultRowData } = this.props;
+    if (defaultRowData && 'Page 1' in defaultRowData) {
+      this._setRows(defaultRowData);
+      if (this.props.withSections === true) {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRowsAndSections(defaultRowData),
+          isRefreshing: false,
+          paginationStatus:  'waiting',
+        });
+      } else {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(defaultRowData),
+          isRefreshing: false,
+          paginationStatus: 'waiting',
+        });
+      }
+    }
   },
 
   render() {

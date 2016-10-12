@@ -15,6 +15,7 @@ var {
 import GiftedListView from './GiftedListView'
 import RecipeItem from './RecipeItem'
 import {finishFetchingRecipes} from '../actions/recipe'
+import {updateSearchResult} from '../actions/search'
 import {SEARCH_RESULT_URL} from '../constants/AppData'
 
 
@@ -59,6 +60,9 @@ class RecipeList extends React.Component{
                     })
                 });
                 me.props.dispatch(finishFetchingRecipes());
+                if (page === 1) {
+                  me.props.dispatch(updateSearchResult(rows));
+                }
                 callback(rows);
             } else {
                 console.log(xhr.statusText);
@@ -241,15 +245,16 @@ class RecipeList extends React.Component{
           this.refs.giftedlistview.fetchRecipes();
       }
   }
-  
+
   render() {
+    const { persistentSearchResult } = this.props;
     return (
       <View style={screenStyles.container}>
 
         <GiftedListView
           ref="giftedlistview"
           rowView={this._renderRowView.bind(this)}
-          
+          defaultRowData={persistentSearchResult}
           onFetch={this._onFetch}
           initialListSize={12} // the maximum number of rows displayable without scrolling (height of the listview / height of row)
 
@@ -287,7 +292,8 @@ class RecipeList extends React.Component{
 function select(state) { //mapStateToProps from Redux
     return {
         isSearching: state.recipe.isSearching,
-        isFetchingRecipes: state.recipe.isFetchingRecipes
+        isFetchingRecipes: state.recipe.isFetchingRecipes,
+        persistentSearchResult: state.search.searchResult
     }
 }
 

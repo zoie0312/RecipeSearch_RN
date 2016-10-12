@@ -5,7 +5,7 @@ import Autocomplete from 'react-native-autocomplete-input'
 
 import RecipeList from './RecipeList'
 import {searchRecipes, displaySearch, fetchRecipes} from '../actions/recipe'
-import updateSearchText from '../actions/search'
+import {updateSearchText} from '../actions/search'
 import ALL_SEARCHABLE_INGREDIENTS from '../constants/SearchableIngredients'
 
 let {
@@ -67,11 +67,12 @@ class HomeView extends React.Component {
     
     componentDidMount () {
         const { searchText } = this.props;
-        if (searchText !== '') {
-            this.props.dispatch(fetchRecipes());
-        }
+        //if (searchText !== '') {
+        //    this.props.dispatch(fetchRecipes());
+        //}
         
     }
+
     
     render () {
         const { searchText } = this.props;

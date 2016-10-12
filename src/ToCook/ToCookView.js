@@ -61,6 +61,14 @@ class IngredientList extends React.Component{
 
     render () {
         var listDataSource = this.state.ds.cloneWithRows(this.genIngredientRows(this.props.ingredients, this.props.owned));
+        if (Object.keys(this.props.ingredients).length === 0) {
+            return (
+                <View style={{flex: 1, borderWidth: 1}}>
+                    <Text style={styles.ingredientListTitle}>{this.props.title}</Text>
+                
+                </View>
+            )
+        }
         return (
             <View style={{flex: 1, borderWidth: 1}}>
                 <Text style={styles.ingredientListTitle}>{this.props.title}</Text>
@@ -68,6 +76,7 @@ class IngredientList extends React.Component{
                     style={styles.ingredientList}
                     dataSource={listDataSource}
                     renderRow={this.renderIngredientRows}
+                    enableEmptySections={true}
                 />
             </View>
         )
