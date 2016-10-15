@@ -1,9 +1,13 @@
-import * as types from '../constants/ActionTypes'
-import {SEARCH_RECIPE_URL} from '../constants/AppData'
+import ReactNative from 'react-native'
+let { AsyncStorage } = ReactNative
 
-export function searchRecipes(searchIngredients) {
+import * as types from '../constants/ActionTypes'
+import {SEARCH_RECIPE_URL, STORAGE_KEY_USERNAME} from '../constants/AppData'
+
+export function searchRecipes(searchObject) {
     var json_data = {};
-    json_data[parseInt(searchIngredients)] = true;
+    json_data[parseInt(searchObject.ingredient)] = true;
+    json_data['username'] = searchObject.username;
     let opt = {
         headers: {
             'Accept': 'application/json',
@@ -15,12 +19,21 @@ export function searchRecipes(searchIngredients) {
         
     }
     return (dispatch, getState) => {
-        dispatch(displaySearch(searchIngredients))
+        dispatch(displaySearch(searchObject))
         return fetch(SEARCH_RECIPE_URL, opt)
             //.then(response => {debugger;response.json()})
             .then(response => {
-                console.log('search recipe responsed successfully');
-                dispatch(fetchRecipes());
+                return response.json();})
+            .then(resp => {
+                //console.log('search recipe responsed successfully');
+                if (resp.username !== searchObject.username) {
+                    AsyncStorage.setItem(STORAGE_KEY_USERNAME, JSON.stringify(resp.username), () => {
+                        dispatch(fetchRecipes());
+                    });
+                } else {
+                    dispatch(fetchRecipes());
+                }
+                
             })
             .catch(error => console.log(error))
     }
@@ -32,7 +45,7 @@ export function finishFetchingRecipes() {
     }
 } 
 
-export function displaySearch(searchText) {
+export function displaySearch(searchObject) {
     return {
         type: types.DISPLAY_SEARCH
         

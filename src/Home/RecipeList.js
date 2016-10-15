@@ -9,14 +9,15 @@ var {
   Text,
   View,
   TouchableHighlight,
-  Platform
+  Platform,
+  AsyncStorage
 } = ReactNative;
 
 import GiftedListView from './GiftedListView'
 import RecipeItem from './RecipeItem'
 import {finishFetchingRecipes} from '../actions/recipe'
 import {updateSearchResult} from '../actions/search'
-import {SEARCH_RESULT_URL} from '../constants/AppData'
+import {SEARCH_RESULT_URL, STORAGE_KEY_USERNAME} from '../constants/AppData'
 
 
 class RecipeList extends React.Component{
@@ -36,41 +37,66 @@ class RecipeList extends React.Component{
    */
   _onFetch(page = 1, callback, options) {
     var me = this;
-    var xhr = new XMLHttpRequest();
     var url = SEARCH_RESULT_URL + 
         (page) + '&start=' + 
         ((page-1)*15) + '&limit=' +
         (page*15);
-    xhr.open('GET', url);
-    xhr.onload = function(e) {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                //console.log(xhr.responseText);
-                var header = 'Page '+page;
-                var rows = {};
-                rows[header] = [];
-                var resp = JSON.parse(xhr.responseText);
-                resp.items.forEach(function(recipe, idx) {
-                    rows[header].push({
-                        title: recipe.title,
-                        ingredientList: recipe.ingredients,
-                        image: recipe.large_img_url,
-                        smallImage: recipe.small_img_url, 
-                        sourceUrl: recipe.url
-                    })
-                });
-                me.props.dispatch(finishFetchingRecipes());
-                if (page === 1) {
-                  me.props.dispatch(updateSearchResult(rows));
-                }
-                callback(rows);
-            } else {
-                console.log(xhr.statusText);
-                callback({});
-            }
-        }
+
+    try {
+		AsyncStorage.getItem(STORAGE_KEY_USERNAME, (err, result) => {
+			if (err) {
+				me.props.dispatch(finishFetchingRecipes());
+				callback({});
+			} else {
+				let json_data = {};
+    			json_data['username'] = JSON.parse(result);
+    			let opt = {
+        			headers: {
+            			'Accept': 'application/json',
+            			'Content-Type': 'application/json; charset=UTF-8'
+        			},
+        			method: 'POST',
+			        body: JSON.stringify(json_data)
+    			};
+				fetch(url, opt)
+	            .then(response => {
+					if (response.status === 200) {
+                		return response.json();
+					}
+				})
+            	.then(resp => {
+                	//console.log('search recipe responsed successfully');
+					var header = 'Page '+page;
+					var rows = {};
+					rows[header] = [];
+					resp.items.forEach(function(recipe, idx) {
+						rows[header].push({
+							title: recipe.title,
+							ingredientList: recipe.ingredients,
+							image: recipe.large_img_url,
+							smallImage: recipe.small_img_url, 
+							sourceUrl: recipe.url
+						})
+					});
+					me.props.dispatch(finishFetchingRecipes());
+					if (page === 1) {
+					me.props.dispatch(updateSearchResult(rows));
+					}
+					callback(rows);
+            	})
+            	.catch(error => {
+					console.log(error);
+					me.props.dispatch(finishFetchingRecipes());
+					callback({});
+				})
+			}
+
+      	});
+    } catch (error) {
+      	console.log('AsyncStorage error: ' + error.message);
+		me.props.dispatch(finishFetchingRecipes());
+		callback({});
     }
-    xhr.send();
   }
   
   

@@ -7,6 +7,7 @@ import RecipeList from './RecipeList'
 import {searchRecipes, displaySearch, fetchRecipes} from '../actions/recipe'
 import {updateSearchText} from '../actions/search'
 import ALL_SEARCHABLE_INGREDIENTS from '../constants/SearchableIngredients'
+import {STORAGE_KEY_USERNAME} from '../constants/AppData'
 
 let {
     StyleSheet,
@@ -15,7 +16,8 @@ let {
     TextInput,
     Dimensions,
     TouchableOpacity,
-    Text
+    Text,
+    AsyncStorage
 } = ReactNative
 
 const deviceWidth = Dimensions.get('window').width
@@ -27,6 +29,7 @@ class HomeView extends React.Component {
         this.onIconClicked = this.onIconClicked.bind(this)
         this.onSubmitEditing = this.onSubmitEditing.bind(this)
         this.renderAutocompleteList = this.renderAutocompleteList.bind(this)
+        this.pickIngredient = this.pickIngredient.bind(this)
     }
     
     onActionSelected (position) {
@@ -61,8 +64,22 @@ class HomeView extends React.Component {
     }
     
     pickIngredient (ingredient) {
-       this.props.dispatch(updateSearchText(ingredient.text));
-       this.props.dispatch(searchRecipes(ingredient.id));
+        this.props.dispatch(updateSearchText(ingredient.text));
+        this.props.dispatch(searchRecipes({
+            username: this._username,
+            ingredient: ingredient.id
+        }));
+    }
+    
+    componentWillMount () {
+        var me = this;
+        try {
+            AsyncStorage.getItem(STORAGE_KEY_USERNAME, (err, result) => {
+                me._username = result === null? '' : JSON.parse(result);
+            });
+        } catch (error) {
+            console.log('AsyncStorage error: ' + error.message)
+        }
     }
     
     componentDidMount () {
@@ -72,7 +89,6 @@ class HomeView extends React.Component {
         //}
         
     }
-
     
     render () {
         const { searchText } = this.props;
