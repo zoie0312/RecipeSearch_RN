@@ -23,6 +23,8 @@ DerivedData
 project.xcworkspace
 *.bk
 *.bak
+.babelrc
+.buckconfig
 
 # Android/IJ
 *.keystore
