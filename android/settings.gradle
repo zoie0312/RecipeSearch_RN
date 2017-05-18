@@ -1,0 +1,3 @@
+rootProject.name = 'RecipeSearchFE_RN'
+
+include ':app'
