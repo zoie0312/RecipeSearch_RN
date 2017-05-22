@@ -10,9 +10,9 @@ var {
   View,
   Text,
   RefreshControl,
+  ActivityIndicator
 } = ReactNative;
 
-var GiftedSpinner = require('react-native-gifted-spinner');
 
 
 // small helper function which merged two objects into one
@@ -101,7 +101,7 @@ var GiftedListView = React.createClass({
 
     return (
       <View style={[this.defaultStyles.paginationView, this.props.customStyles.paginationView]}>
-        <GiftedSpinner />
+        <ActivityIndicator />
       </View>
     );
   },

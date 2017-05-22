@@ -3,7 +3,7 @@ import ReactNative from 'react-native'
 
 let {
     StyleSheet,
-    BackAndroid,
+    BackHandler,
     AsyncStorage
 } = ReactNative
 
@@ -28,7 +28,7 @@ class App extends React.Component { //this serves as the root container of App
     }
 
     componentDidMount() {
-        BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
         this.initialize().done();
     }
 
@@ -56,7 +56,7 @@ class App extends React.Component { //this serves as the root container of App
     }
 
     componentWillUnmount() {
-        BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     }
 
     addBackButtonListener(listener) {

@@ -3,14 +3,14 @@
 var React = require('react');
 var ReactNative = require('react-native');
 import {connect} from 'react-redux'
-var GiftedSpinner = require('react-native-gifted-spinner');
 var {
   StyleSheet,
   Text,
   View,
   TouchableHighlight,
   Platform,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } = ReactNative;
 
 import GiftedListView from './GiftedListView'
@@ -184,7 +184,7 @@ class RecipeList extends React.Component{
   _renderRefreshableFetchingView() {
     return (
       <View style={customStyles.refreshableView}>
-        <GiftedSpinner />
+        <ActivityIndicator />
       </View>
     );
   }
@@ -213,7 +213,7 @@ class RecipeList extends React.Component{
   _renderPaginationFetchigView() {
     return (
       <View style={customStyles.paginationView}>
-        <GiftedSpinner />
+        <ActivityIndicator />
       </View>
     );
   }
