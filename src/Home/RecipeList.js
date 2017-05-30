@@ -1,9 +1,10 @@
 'use strict';
 
-var React = require('react');
-var ReactNative = require('react-native');
+import React from 'react'
+import ReactNative from 'react-native'
 import {connect} from 'react-redux'
-var {
+
+let {
   StyleSheet,
   Text,
   View,

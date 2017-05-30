@@ -1,9 +1,9 @@
 'use strict'
 
-var React = require('react');
-var ReactNative = require('react-native');
+import React from 'react'
+import ReactNative from 'react-native'
 
-var {
+let {
   ListView,
   Platform,
   TouchableHighlight,
@@ -12,7 +12,6 @@ var {
   RefreshControl,
   ActivityIndicator
 } = ReactNative;
-
 
 
 // small helper function which merged two objects into one

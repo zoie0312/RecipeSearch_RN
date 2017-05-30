@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactNative from 'react-native'
 import {connect} from 'react-redux'
-//import Collapsible from 'react-native-collapsible';
 
 //import IngredientItem from './IngredientItem';
 import {updateUserIngredientsViewList, updateIngredientOwnership} from '../actions/ingredient' 

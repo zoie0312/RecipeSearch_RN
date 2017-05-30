@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactNative from 'react-native'
+import {Actions} from 'react-native-router-flux'
+
 let {
 	StyleSheet,
 	Text,
@@ -7,7 +9,6 @@ let {
 	View,
     TouchableNativeFeedback
 } = ReactNative
-import {Actions} from 'react-native-router-flux'
 
 class RequiredIgds extends React.Component {
 	constructor (props) {

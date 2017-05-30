@@ -1,13 +1,5 @@
 import React from 'react'
 import ReactNative from 'react-native'
-
-let {
-    View,
-    DrawerLayoutAndroid,
-    StyleSheet,
-    Text
-} = ReactNative
-
 import {connect} from 'react-redux'
 
 import HomeView from '../Home/HomeView'
@@ -16,6 +8,13 @@ import ToCookView from '../ToCook/ToCookView'
 import MenuItem from './MenuItem'
 import switchTab from '../actions/navigation'
 import MOCKED_INGREDIENT_DATA from '../constants/IngredientData1'
+
+let {
+    View,
+    DrawerLayoutAndroid,
+    StyleSheet,
+    Text
+} = ReactNative
 
 class Main extends React.Component {
        
